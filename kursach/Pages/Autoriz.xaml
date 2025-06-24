@@ -26,14 +26,14 @@
                 <StackPanel Margin="0,0,0,15">
                     <TextBlock Text="Логин" FontSize="14" Foreground="#555555" Margin="0,0,0,5"/>
                     <TextBox x:Name="tbLogin" Style="{StaticResource ModernTextBox}" 
-                             FontSize="16" Padding="12" Height="42"/>
+                             FontSize="14" Padding="10" Height="42"/>
                 </StackPanel>
 
                 <!-- Поле пароля -->
                 <StackPanel Margin="0,0,0,25">
                     <TextBlock Text="Пароль" FontSize="14" Foreground="#555555" Margin="0,0,0,5"/>
                     <PasswordBox x:Name="pbPassword" Style="{StaticResource ModernPasswordBox}" 
-                                FontSize="16" Padding="12" Height="42"/>
+                                FontSize="14" Padding="10" Height="42"/>
                 </StackPanel>
 
                 <!-- Кнопка входа -->

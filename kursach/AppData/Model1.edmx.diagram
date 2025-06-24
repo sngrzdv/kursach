@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b06c51d69ee24435bfff297ee06b8734" Name="Diagram1" ZoomLevel="55">
+        <EntityTypeShape EntityType="vacancyModel.Cities" Width="1.5" PointX="0.75" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="vacancyModel.Companies" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="vacancyModel.Educations" Width="1.5" PointX="3.75" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="vacancyModel.EmploymentTypes" Width="1.5" PointX="6" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="vacancyModel.FavoriteResumes" Width="1.5" PointX="11.25" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="vacancyModel.FavoriteVacancies" Width="1.5" PointX="10.5" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="vacancyModel.Interviews" Width="1.5" PointX="15.75" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="vacancyModel.Notifications" Width="1.5" PointX="3" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="vacancyModel.ResponseStatuses" Width="1.5" PointX="11.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="vacancyModel.ResumeEducations" Width="1.5" PointX="11.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="vacancyModel.Resumes" Width="1.5" PointX="6" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="vacancyModel.Roles" Width="1.5" PointX="1.5" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="vacancyModel.Skills" Width="1.5" PointX="8.25" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="vacancyModel.Users" Width="1.5" PointX="0.75" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="vacancyModel.Vacancies" Width="1.5" PointX="8.25" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="vacancyModel.VacancyResponses" Width="1.5" PointX="13.5" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="vacancyModel.VacancySkills" Width="1.5" PointX="13.5" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="vacancyModel.WorkExperiences" Width="1.5" PointX="8.25" PointY="18.375" IsExpanded="true" />
+        <AssociationConnector Association="vacancyModel.FK__Companies__CityI__37A5467C" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__Resumes__CityId__3D5E1FD2" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__Vacancies__CityI__5070F446" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__Companies__UserI__38996AB5" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__Vacancies__Compa__4F7CD00D" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__ResumeEdu__Educa__4CA06362" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__Resumes__Educati__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__Resumes__Employm__3E52440B" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__Vacancies__Emplo__5165187F" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__FavoriteR__Resum__6FE99F9F" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__FavoriteR__UserI__6EF57B66" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__FavoriteV__UserI__6A30C649" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__FavoriteV__Vacan__6B24EA82" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__Interview__Respo__66603565" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__Notificat__UserI__73BA3083" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__VacancyRe__Statu__628FA481" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__ResumeEdu__Resum__4BAC3F29" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__Resumes__UserId__3B75D760" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__VacancyRe__Resum__60A75C0F" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__WorkExper__Resum__47DBAE45" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__Users__RoleId__286302EC" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__VacancySk__Skill__59063A47" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__VacancyRe__Vacan__5FB337D6" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.FK__VacancySk__Vacan__5812160E" ManuallyRouted="false" />
+        <AssociationConnector Association="vacancyModel.ResumeSkills" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

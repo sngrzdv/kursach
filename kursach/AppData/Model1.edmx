@@ -1,0 +1,1575 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище vacancyModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cities">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Companies">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Website" Type="nvarchar" MaxLength="255" />
+          <Property Name="LogoPath" Type="nvarchar" MaxLength="255" />
+          <Property Name="CityId" Type="int" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Educations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmploymentTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="FavoriteResumes">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="ResumeId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="ResumeId" Type="int" Nullable="false" />
+          <Property Name="AddedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FavoriteVacancies">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="VacancyId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="VacancyId" Type="int" Nullable="false" />
+          <Property Name="AddedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Interviews">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ResponseId" Type="int" Nullable="false" />
+          <Property Name="InterviewDate" Type="datetime" Nullable="false" />
+          <Property Name="Location" Type="nvarchar" MaxLength="255" />
+          <Property Name="OnlineMeetingLink" Type="nvarchar" MaxLength="255" />
+          <Property Name="Notes" Type="nvarchar(max)" />
+          <Property Name="IsCompleted" Type="bit" Nullable="false" />
+          <Property Name="Result" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Notifications">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="IsRead" Type="bit" Nullable="false" />
+          <Property Name="NotificationType" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RelatedEntityId" Type="int" />
+          <Property Name="RelatedEntityType" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ResponseStatuses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ResumeEducations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ResumeId" Type="int" Nullable="false" />
+          <Property Name="Institution" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Specialization" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="EducationLevelId" Type="int" Nullable="false" />
+          <Property Name="YearCompleted" Type="int" />
+        </EntityType>
+        <EntityType Name="Resumes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="SalaryExpectation" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="EducationLevelId" Type="int" />
+          <Property Name="ExperienceYears" Type="int" />
+          <Property Name="AboutMe" Type="nvarchar(max)" />
+          <Property Name="CityId" Type="int" />
+          <Property Name="EmploymentTypeId" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedDate" Type="datetime" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="PhotoPath" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="ResumeSkills">
+          <Key>
+            <PropertyRef Name="ResumeId" />
+            <PropertyRef Name="SkillId" />
+          </Key>
+          <Property Name="ResumeId" Type="int" Nullable="false" />
+          <Property Name="SkillId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Skills">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Category" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FatherName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="Password" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="RegistrationDate" Type="datetime" Nullable="false" />
+          <Property Name="LastLoginDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Vacancies">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Requirements" Type="nvarchar(max)" />
+          <Property Name="Responsibilities" Type="nvarchar(max)" />
+          <Property Name="SalaryFrom" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="CityId" Type="int" />
+          <Property Name="EmploymentTypeId" Type="int" />
+          <Property Name="ExperienceRequired" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedDate" Type="datetime" Nullable="false" />
+          <Property Name="ExpiryDate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="ViewsCount" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VacancyResponses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VacancyId" Type="int" Nullable="false" />
+          <Property Name="ResumeId" Type="int" Nullable="false" />
+          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="ResponseDate" Type="datetime" Nullable="false" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="EmployerComment" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="VacancySkills">
+          <Key>
+            <PropertyRef Name="VacancyId" />
+            <PropertyRef Name="SkillId" />
+          </Key>
+          <Property Name="VacancyId" Type="int" Nullable="false" />
+          <Property Name="SkillId" Type="int" Nullable="false" />
+          <Property Name="IsRequired" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkExperiences">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ResumeId" Type="int" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Position" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="StartDate" Type="date" Nullable="false" />
+          <Property Name="EndDate" Type="date" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="IsCurrent" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Companies__CityI__37A5467C">
+          <End Role="Cities" Type="Self.Cities" Multiplicity="0..1" />
+          <End Role="Companies" Type="Self.Companies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Companies">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Companies__UserI__38996AB5">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Companies" Type="Self.Companies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Companies">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FavoriteR__Resum__6FE99F9F">
+          <End Role="Resumes" Type="Self.Resumes" Multiplicity="1" />
+          <End Role="FavoriteResumes" Type="Self.FavoriteResumes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resumes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FavoriteResumes">
+              <PropertyRef Name="ResumeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FavoriteR__UserI__6EF57B66">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="FavoriteResumes" Type="Self.FavoriteResumes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FavoriteResumes">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FavoriteV__UserI__6A30C649">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="FavoriteVacancies" Type="Self.FavoriteVacancies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FavoriteVacancies">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FavoriteV__Vacan__6B24EA82">
+          <End Role="Vacancies" Type="Self.Vacancies" Multiplicity="1" />
+          <End Role="FavoriteVacancies" Type="Self.FavoriteVacancies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vacancies">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FavoriteVacancies">
+              <PropertyRef Name="VacancyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Interview__Respo__66603565">
+          <End Role="VacancyResponses" Type="Self.VacancyResponses" Multiplicity="1" />
+          <End Role="Interviews" Type="Self.Interviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VacancyResponses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Interviews">
+              <PropertyRef Name="ResponseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Notificat__UserI__73BA3083">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Notifications" Type="Self.Notifications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notifications">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ResumeEdu__Educa__4CA06362">
+          <End Role="Educations" Type="Self.Educations" Multiplicity="1" />
+          <End Role="ResumeEducations" Type="Self.ResumeEducations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Educations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResumeEducations">
+              <PropertyRef Name="EducationLevelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ResumeEdu__Resum__4BAC3F29">
+          <End Role="Resumes" Type="Self.Resumes" Multiplicity="1" />
+          <End Role="ResumeEducations" Type="Self.ResumeEducations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resumes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResumeEducations">
+              <PropertyRef Name="ResumeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Resumes__CityId__3D5E1FD2">
+          <End Role="Cities" Type="Self.Cities" Multiplicity="0..1" />
+          <End Role="Resumes" Type="Self.Resumes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Resumes">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Resumes__Educati__3C69FB99">
+          <End Role="Educations" Type="Self.Educations" Multiplicity="0..1" />
+          <End Role="Resumes" Type="Self.Resumes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Educations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Resumes">
+              <PropertyRef Name="EducationLevelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Resumes__Employm__3E52440B">
+          <End Role="EmploymentTypes" Type="Self.EmploymentTypes" Multiplicity="0..1" />
+          <End Role="Resumes" Type="Self.Resumes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmploymentTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Resumes">
+              <PropertyRef Name="EmploymentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Resumes__UserId__3B75D760">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Resumes" Type="Self.Resumes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Resumes">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ResumeSki__Resum__440B1D61">
+          <End Role="Resumes" Type="Self.Resumes" Multiplicity="1" />
+          <End Role="ResumeSkills" Type="Self.ResumeSkills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resumes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResumeSkills">
+              <PropertyRef Name="ResumeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ResumeSki__Skill__44FF419A">
+          <End Role="Skills" Type="Self.Skills" Multiplicity="1" />
+          <End Role="ResumeSkills" Type="Self.ResumeSkills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Skills">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResumeSkills">
+              <PropertyRef Name="SkillId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Users__RoleId__286302EC">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Vacancies__CityI__5070F446">
+          <End Role="Cities" Type="Self.Cities" Multiplicity="0..1" />
+          <End Role="Vacancies" Type="Self.Vacancies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vacancies">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Vacancies__Compa__4F7CD00D">
+          <End Role="Companies" Type="Self.Companies" Multiplicity="1" />
+          <End Role="Vacancies" Type="Self.Vacancies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vacancies">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Vacancies__Emplo__5165187F">
+          <End Role="EmploymentTypes" Type="Self.EmploymentTypes" Multiplicity="0..1" />
+          <End Role="Vacancies" Type="Self.Vacancies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmploymentTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vacancies">
+              <PropertyRef Name="EmploymentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VacancyRe__Resum__60A75C0F">
+          <End Role="Resumes" Type="Self.Resumes" Multiplicity="1" />
+          <End Role="VacancyResponses" Type="Self.VacancyResponses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resumes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VacancyResponses">
+              <PropertyRef Name="ResumeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VacancyRe__Statu__628FA481">
+          <End Role="ResponseStatuses" Type="Self.ResponseStatuses" Multiplicity="1" />
+          <End Role="VacancyResponses" Type="Self.VacancyResponses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResponseStatuses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VacancyResponses">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VacancyRe__Vacan__5FB337D6">
+          <End Role="Vacancies" Type="Self.Vacancies" Multiplicity="1" />
+          <End Role="VacancyResponses" Type="Self.VacancyResponses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vacancies">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VacancyResponses">
+              <PropertyRef Name="VacancyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VacancySk__Skill__59063A47">
+          <End Role="Skills" Type="Self.Skills" Multiplicity="1" />
+          <End Role="VacancySkills" Type="Self.VacancySkills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Skills">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VacancySkills">
+              <PropertyRef Name="SkillId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VacancySk__Vacan__5812160E">
+          <End Role="Vacancies" Type="Self.Vacancies" Multiplicity="1" />
+          <End Role="VacancySkills" Type="Self.VacancySkills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vacancies">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VacancySkills">
+              <PropertyRef Name="VacancyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__WorkExper__Resum__47DBAE45">
+          <End Role="Resumes" Type="Self.Resumes" Multiplicity="1" />
+          <End Role="WorkExperiences" Type="Self.WorkExperiences" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resumes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkExperiences">
+              <PropertyRef Name="ResumeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище vacancyModelContainer">
+          <EntitySet Name="Cities" EntityType="Self.Cities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Companies" EntityType="Self.Companies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Educations" EntityType="Self.Educations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmploymentTypes" EntityType="Self.EmploymentTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FavoriteResumes" EntityType="Self.FavoriteResumes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FavoriteVacancies" EntityType="Self.FavoriteVacancies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Interviews" EntityType="Self.Interviews" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notifications" EntityType="Self.Notifications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResponseStatuses" EntityType="Self.ResponseStatuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResumeEducations" EntityType="Self.ResumeEducations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Resumes" EntityType="Self.Resumes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResumeSkills" EntityType="Self.ResumeSkills" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Skills" EntityType="Self.Skills" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vacancies" EntityType="Self.Vacancies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VacancyResponses" EntityType="Self.VacancyResponses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VacancySkills" EntityType="Self.VacancySkills" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkExperiences" EntityType="Self.WorkExperiences" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Companies__CityI__37A5467C" Association="Self.FK__Companies__CityI__37A5467C">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Companies" EntitySet="Companies" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Companies__UserI__38996AB5" Association="Self.FK__Companies__UserI__38996AB5">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Companies" EntitySet="Companies" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FavoriteR__Resum__6FE99F9F" Association="Self.FK__FavoriteR__Resum__6FE99F9F">
+            <End Role="Resumes" EntitySet="Resumes" />
+            <End Role="FavoriteResumes" EntitySet="FavoriteResumes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FavoriteR__UserI__6EF57B66" Association="Self.FK__FavoriteR__UserI__6EF57B66">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="FavoriteResumes" EntitySet="FavoriteResumes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FavoriteV__UserI__6A30C649" Association="Self.FK__FavoriteV__UserI__6A30C649">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="FavoriteVacancies" EntitySet="FavoriteVacancies" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FavoriteV__Vacan__6B24EA82" Association="Self.FK__FavoriteV__Vacan__6B24EA82">
+            <End Role="Vacancies" EntitySet="Vacancies" />
+            <End Role="FavoriteVacancies" EntitySet="FavoriteVacancies" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Interview__Respo__66603565" Association="Self.FK__Interview__Respo__66603565">
+            <End Role="VacancyResponses" EntitySet="VacancyResponses" />
+            <End Role="Interviews" EntitySet="Interviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Notificat__UserI__73BA3083" Association="Self.FK__Notificat__UserI__73BA3083">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Notifications" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ResumeEdu__Educa__4CA06362" Association="Self.FK__ResumeEdu__Educa__4CA06362">
+            <End Role="Educations" EntitySet="Educations" />
+            <End Role="ResumeEducations" EntitySet="ResumeEducations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ResumeEdu__Resum__4BAC3F29" Association="Self.FK__ResumeEdu__Resum__4BAC3F29">
+            <End Role="Resumes" EntitySet="Resumes" />
+            <End Role="ResumeEducations" EntitySet="ResumeEducations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Resumes__CityId__3D5E1FD2" Association="Self.FK__Resumes__CityId__3D5E1FD2">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Resumes" EntitySet="Resumes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Resumes__Educati__3C69FB99" Association="Self.FK__Resumes__Educati__3C69FB99">
+            <End Role="Educations" EntitySet="Educations" />
+            <End Role="Resumes" EntitySet="Resumes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Resumes__Employm__3E52440B" Association="Self.FK__Resumes__Employm__3E52440B">
+            <End Role="EmploymentTypes" EntitySet="EmploymentTypes" />
+            <End Role="Resumes" EntitySet="Resumes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Resumes__UserId__3B75D760" Association="Self.FK__Resumes__UserId__3B75D760">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Resumes" EntitySet="Resumes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ResumeSki__Resum__440B1D61" Association="Self.FK__ResumeSki__Resum__440B1D61">
+            <End Role="Resumes" EntitySet="Resumes" />
+            <End Role="ResumeSkills" EntitySet="ResumeSkills" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ResumeSki__Skill__44FF419A" Association="Self.FK__ResumeSki__Skill__44FF419A">
+            <End Role="Skills" EntitySet="Skills" />
+            <End Role="ResumeSkills" EntitySet="ResumeSkills" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Users__RoleId__286302EC" Association="Self.FK__Users__RoleId__286302EC">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vacancies__CityI__5070F446" Association="Self.FK__Vacancies__CityI__5070F446">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Vacancies" EntitySet="Vacancies" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vacancies__Compa__4F7CD00D" Association="Self.FK__Vacancies__Compa__4F7CD00D">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="Vacancies" EntitySet="Vacancies" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vacancies__Emplo__5165187F" Association="Self.FK__Vacancies__Emplo__5165187F">
+            <End Role="EmploymentTypes" EntitySet="EmploymentTypes" />
+            <End Role="Vacancies" EntitySet="Vacancies" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VacancyRe__Resum__60A75C0F" Association="Self.FK__VacancyRe__Resum__60A75C0F">
+            <End Role="Resumes" EntitySet="Resumes" />
+            <End Role="VacancyResponses" EntitySet="VacancyResponses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VacancyRe__Statu__628FA481" Association="Self.FK__VacancyRe__Statu__628FA481">
+            <End Role="ResponseStatuses" EntitySet="ResponseStatuses" />
+            <End Role="VacancyResponses" EntitySet="VacancyResponses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VacancyRe__Vacan__5FB337D6" Association="Self.FK__VacancyRe__Vacan__5FB337D6">
+            <End Role="Vacancies" EntitySet="Vacancies" />
+            <End Role="VacancyResponses" EntitySet="VacancyResponses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VacancySk__Skill__59063A47" Association="Self.FK__VacancySk__Skill__59063A47">
+            <End Role="Skills" EntitySet="Skills" />
+            <End Role="VacancySkills" EntitySet="VacancySkills" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VacancySk__Vacan__5812160E" Association="Self.FK__VacancySk__Vacan__5812160E">
+            <End Role="Vacancies" EntitySet="Vacancies" />
+            <End Role="VacancySkills" EntitySet="VacancySkills" />
+          </AssociationSet>
+          <AssociationSet Name="FK__WorkExper__Resum__47DBAE45" Association="Self.FK__WorkExper__Resum__47DBAE45">
+            <End Role="Resumes" EntitySet="Resumes" />
+            <End Role="WorkExperiences" EntitySet="WorkExperiences" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="vacancyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cities">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Companies" Relationship="Self.FK__Companies__CityI__37A5467C" FromRole="Cities" ToRole="Companies" />
+          <NavigationProperty Name="Resumes" Relationship="Self.FK__Resumes__CityId__3D5E1FD2" FromRole="Cities" ToRole="Resumes" />
+          <NavigationProperty Name="Vacancies" Relationship="Self.FK__Vacancies__CityI__5070F446" FromRole="Cities" ToRole="Vacancies" />
+        </EntityType>
+        <EntityType Name="Companies">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Website" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="LogoPath" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CityId" Type="Int32" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cities" Relationship="Self.FK__Companies__CityI__37A5467C" FromRole="Companies" ToRole="Cities" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__Companies__UserI__38996AB5" FromRole="Companies" ToRole="Users" />
+          <NavigationProperty Name="Vacancies" Relationship="Self.FK__Vacancies__Compa__4F7CD00D" FromRole="Companies" ToRole="Vacancies" />
+        </EntityType>
+        <EntityType Name="Educations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ResumeEducations" Relationship="Self.FK__ResumeEdu__Educa__4CA06362" FromRole="Educations" ToRole="ResumeEducations" />
+          <NavigationProperty Name="Resumes" Relationship="Self.FK__Resumes__Educati__3C69FB99" FromRole="Educations" ToRole="Resumes" />
+        </EntityType>
+        <EntityType Name="EmploymentTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Resumes" Relationship="Self.FK__Resumes__Employm__3E52440B" FromRole="EmploymentTypes" ToRole="Resumes" />
+          <NavigationProperty Name="Vacancies" Relationship="Self.FK__Vacancies__Emplo__5165187F" FromRole="EmploymentTypes" ToRole="Vacancies" />
+        </EntityType>
+        <EntityType Name="FavoriteResumes">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="ResumeId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="ResumeId" Type="Int32" Nullable="false" />
+          <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Resumes" Relationship="Self.FK__FavoriteR__Resum__6FE99F9F" FromRole="FavoriteResumes" ToRole="Resumes" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__FavoriteR__UserI__6EF57B66" FromRole="FavoriteResumes" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="FavoriteVacancies">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="VacancyId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="VacancyId" Type="Int32" Nullable="false" />
+          <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__FavoriteV__UserI__6A30C649" FromRole="FavoriteVacancies" ToRole="Users" />
+          <NavigationProperty Name="Vacancies" Relationship="Self.FK__FavoriteV__Vacan__6B24EA82" FromRole="FavoriteVacancies" ToRole="Vacancies" />
+        </EntityType>
+        <EntityType Name="Interviews">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ResponseId" Type="Int32" Nullable="false" />
+          <Property Name="InterviewDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Location" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="OnlineMeetingLink" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsCompleted" Type="Boolean" Nullable="false" />
+          <Property Name="Result" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="VacancyResponses" Relationship="Self.FK__Interview__Respo__66603565" FromRole="Interviews" ToRole="VacancyResponses" />
+        </EntityType>
+        <EntityType Name="Notifications">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsRead" Type="Boolean" Nullable="false" />
+          <Property Name="NotificationType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RelatedEntityId" Type="Int32" />
+          <Property Name="RelatedEntityType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__Notificat__UserI__73BA3083" FromRole="Notifications" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="ResponseStatuses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="VacancyResponses" Relationship="Self.FK__VacancyRe__Statu__628FA481" FromRole="ResponseStatuses" ToRole="VacancyResponses" />
+        </EntityType>
+        <EntityType Name="ResumeEducations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ResumeId" Type="Int32" Nullable="false" />
+          <Property Name="Institution" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Specialization" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EducationLevelId" Type="Int32" Nullable="false" />
+          <Property Name="YearCompleted" Type="Int32" />
+          <NavigationProperty Name="Educations" Relationship="Self.FK__ResumeEdu__Educa__4CA06362" FromRole="ResumeEducations" ToRole="Educations" />
+          <NavigationProperty Name="Resumes" Relationship="Self.FK__ResumeEdu__Resum__4BAC3F29" FromRole="ResumeEducations" ToRole="Resumes" />
+        </EntityType>
+        <EntityType Name="Resumes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SalaryExpectation" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="EducationLevelId" Type="Int32" />
+          <Property Name="ExperienceYears" Type="Int32" />
+          <Property Name="AboutMe" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CityId" Type="Int32" />
+          <Property Name="EmploymentTypeId" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="PhotoPath" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Cities" Relationship="Self.FK__Resumes__CityId__3D5E1FD2" FromRole="Resumes" ToRole="Cities" />
+          <NavigationProperty Name="Educations" Relationship="Self.FK__Resumes__Educati__3C69FB99" FromRole="Resumes" ToRole="Educations" />
+          <NavigationProperty Name="EmploymentTypes" Relationship="Self.FK__Resumes__Employm__3E52440B" FromRole="Resumes" ToRole="EmploymentTypes" />
+          <NavigationProperty Name="FavoriteResumes" Relationship="Self.FK__FavoriteR__Resum__6FE99F9F" FromRole="Resumes" ToRole="FavoriteResumes" />
+          <NavigationProperty Name="ResumeEducations" Relationship="Self.FK__ResumeEdu__Resum__4BAC3F29" FromRole="Resumes" ToRole="ResumeEducations" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__Resumes__UserId__3B75D760" FromRole="Resumes" ToRole="Users" />
+          <NavigationProperty Name="VacancyResponses" Relationship="Self.FK__VacancyRe__Resum__60A75C0F" FromRole="Resumes" ToRole="VacancyResponses" />
+          <NavigationProperty Name="WorkExperiences" Relationship="Self.FK__WorkExper__Resum__47DBAE45" FromRole="Resumes" ToRole="WorkExperiences" />
+          <NavigationProperty Name="Skills" Relationship="Self.ResumeSkills" FromRole="Resumes" ToRole="Skills" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__Users__RoleId__286302EC" FromRole="Roles" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Skills">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="VacancySkills" Relationship="Self.FK__VacancySk__Skill__59063A47" FromRole="Skills" ToRole="VacancySkills" />
+          <NavigationProperty Name="Resumes" Relationship="Self.ResumeSkills" FromRole="Skills" ToRole="Resumes" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FatherName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="RegistrationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastLoginDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Companies" Relationship="Self.FK__Companies__UserI__38996AB5" FromRole="Users" ToRole="Companies" />
+          <NavigationProperty Name="FavoriteResumes" Relationship="Self.FK__FavoriteR__UserI__6EF57B66" FromRole="Users" ToRole="FavoriteResumes" />
+          <NavigationProperty Name="FavoriteVacancies" Relationship="Self.FK__FavoriteV__UserI__6A30C649" FromRole="Users" ToRole="FavoriteVacancies" />
+          <NavigationProperty Name="Notifications" Relationship="Self.FK__Notificat__UserI__73BA3083" FromRole="Users" ToRole="Notifications" />
+          <NavigationProperty Name="Resumes" Relationship="Self.FK__Resumes__UserId__3B75D760" FromRole="Users" ToRole="Resumes" />
+          <NavigationProperty Name="Roles" Relationship="Self.FK__Users__RoleId__286302EC" FromRole="Users" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="Vacancies">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Requirements" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Responsibilities" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SalaryFrom" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="CityId" Type="Int32" />
+          <Property Name="EmploymentTypeId" Type="Int32" />
+          <Property Name="ExperienceRequired" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ExpiryDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="ViewsCount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cities" Relationship="Self.FK__Vacancies__CityI__5070F446" FromRole="Vacancies" ToRole="Cities" />
+          <NavigationProperty Name="Companies" Relationship="Self.FK__Vacancies__Compa__4F7CD00D" FromRole="Vacancies" ToRole="Companies" />
+          <NavigationProperty Name="EmploymentTypes" Relationship="Self.FK__Vacancies__Emplo__5165187F" FromRole="Vacancies" ToRole="EmploymentTypes" />
+          <NavigationProperty Name="FavoriteVacancies" Relationship="Self.FK__FavoriteV__Vacan__6B24EA82" FromRole="Vacancies" ToRole="FavoriteVacancies" />
+          <NavigationProperty Name="VacancyResponses" Relationship="Self.FK__VacancyRe__Vacan__5FB337D6" FromRole="Vacancies" ToRole="VacancyResponses" />
+          <NavigationProperty Name="VacancySkills" Relationship="Self.FK__VacancySk__Vacan__5812160E" FromRole="Vacancies" ToRole="VacancySkills" />
+        </EntityType>
+        <EntityType Name="VacancyResponses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VacancyId" Type="Int32" Nullable="false" />
+          <Property Name="ResumeId" Type="Int32" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ResponseDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="EmployerComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Interviews" Relationship="Self.FK__Interview__Respo__66603565" FromRole="VacancyResponses" ToRole="Interviews" />
+          <NavigationProperty Name="ResponseStatuses" Relationship="Self.FK__VacancyRe__Statu__628FA481" FromRole="VacancyResponses" ToRole="ResponseStatuses" />
+          <NavigationProperty Name="Resumes" Relationship="Self.FK__VacancyRe__Resum__60A75C0F" FromRole="VacancyResponses" ToRole="Resumes" />
+          <NavigationProperty Name="Vacancies" Relationship="Self.FK__VacancyRe__Vacan__5FB337D6" FromRole="VacancyResponses" ToRole="Vacancies" />
+        </EntityType>
+        <EntityType Name="VacancySkills">
+          <Key>
+            <PropertyRef Name="VacancyId" />
+            <PropertyRef Name="SkillId" />
+          </Key>
+          <Property Name="VacancyId" Type="Int32" Nullable="false" />
+          <Property Name="SkillId" Type="Int32" Nullable="false" />
+          <Property Name="IsRequired" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Skills" Relationship="Self.FK__VacancySk__Skill__59063A47" FromRole="VacancySkills" ToRole="Skills" />
+          <NavigationProperty Name="Vacancies" Relationship="Self.FK__VacancySk__Vacan__5812160E" FromRole="VacancySkills" ToRole="Vacancies" />
+        </EntityType>
+        <EntityType Name="WorkExperiences">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ResumeId" Type="Int32" Nullable="false" />
+          <Property Name="CompanyName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Position" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsCurrent" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Resumes" Relationship="Self.FK__WorkExper__Resum__47DBAE45" FromRole="WorkExperiences" ToRole="Resumes" />
+        </EntityType>
+        <Association Name="FK__Companies__CityI__37A5467C">
+          <End Role="Cities" Type="Self.Cities" Multiplicity="0..1" />
+          <End Role="Companies" Type="Self.Companies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Companies">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Resumes__CityId__3D5E1FD2">
+          <End Role="Cities" Type="Self.Cities" Multiplicity="0..1" />
+          <End Role="Resumes" Type="Self.Resumes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Resumes">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Vacancies__CityI__5070F446">
+          <End Role="Cities" Type="Self.Cities" Multiplicity="0..1" />
+          <End Role="Vacancies" Type="Self.Vacancies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vacancies">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Companies__UserI__38996AB5">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Companies" Type="Self.Companies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Companies">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Vacancies__Compa__4F7CD00D">
+          <End Role="Companies" Type="Self.Companies" Multiplicity="1" />
+          <End Role="Vacancies" Type="Self.Vacancies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vacancies">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ResumeEdu__Educa__4CA06362">
+          <End Role="Educations" Type="Self.Educations" Multiplicity="1" />
+          <End Role="ResumeEducations" Type="Self.ResumeEducations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Educations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResumeEducations">
+              <PropertyRef Name="EducationLevelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Resumes__Educati__3C69FB99">
+          <End Role="Educations" Type="Self.Educations" Multiplicity="0..1" />
+          <End Role="Resumes" Type="Self.Resumes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Educations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Resumes">
+              <PropertyRef Name="EducationLevelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Resumes__Employm__3E52440B">
+          <End Role="EmploymentTypes" Type="Self.EmploymentTypes" Multiplicity="0..1" />
+          <End Role="Resumes" Type="Self.Resumes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmploymentTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Resumes">
+              <PropertyRef Name="EmploymentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Vacancies__Emplo__5165187F">
+          <End Role="EmploymentTypes" Type="Self.EmploymentTypes" Multiplicity="0..1" />
+          <End Role="Vacancies" Type="Self.Vacancies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmploymentTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Vacancies">
+              <PropertyRef Name="EmploymentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FavoriteR__Resum__6FE99F9F">
+          <End Role="Resumes" Type="Self.Resumes" Multiplicity="1" />
+          <End Role="FavoriteResumes" Type="Self.FavoriteResumes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resumes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FavoriteResumes">
+              <PropertyRef Name="ResumeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FavoriteR__UserI__6EF57B66">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="FavoriteResumes" Type="Self.FavoriteResumes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FavoriteResumes">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FavoriteV__UserI__6A30C649">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="FavoriteVacancies" Type="Self.FavoriteVacancies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FavoriteVacancies">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FavoriteV__Vacan__6B24EA82">
+          <End Role="Vacancies" Type="Self.Vacancies" Multiplicity="1" />
+          <End Role="FavoriteVacancies" Type="Self.FavoriteVacancies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vacancies">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FavoriteVacancies">
+              <PropertyRef Name="VacancyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Interview__Respo__66603565">
+          <End Role="VacancyResponses" Type="Self.VacancyResponses" Multiplicity="1" />
+          <End Role="Interviews" Type="Self.Interviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VacancyResponses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Interviews">
+              <PropertyRef Name="ResponseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Notificat__UserI__73BA3083">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Notifications" Type="Self.Notifications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notifications">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VacancyRe__Statu__628FA481">
+          <End Role="ResponseStatuses" Type="Self.ResponseStatuses" Multiplicity="1" />
+          <End Role="VacancyResponses" Type="Self.VacancyResponses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResponseStatuses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VacancyResponses">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ResumeEdu__Resum__4BAC3F29">
+          <End Role="Resumes" Type="Self.Resumes" Multiplicity="1" />
+          <End Role="ResumeEducations" Type="Self.ResumeEducations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resumes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResumeEducations">
+              <PropertyRef Name="ResumeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Resumes__UserId__3B75D760">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Resumes" Type="Self.Resumes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Resumes">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VacancyRe__Resum__60A75C0F">
+          <End Role="Resumes" Type="Self.Resumes" Multiplicity="1" />
+          <End Role="VacancyResponses" Type="Self.VacancyResponses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resumes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VacancyResponses">
+              <PropertyRef Name="ResumeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__WorkExper__Resum__47DBAE45">
+          <End Role="Resumes" Type="Self.Resumes" Multiplicity="1" />
+          <End Role="WorkExperiences" Type="Self.WorkExperiences" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resumes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkExperiences">
+              <PropertyRef Name="ResumeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Users__RoleId__286302EC">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VacancySk__Skill__59063A47">
+          <End Role="Skills" Type="Self.Skills" Multiplicity="1" />
+          <End Role="VacancySkills" Type="Self.VacancySkills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Skills">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VacancySkills">
+              <PropertyRef Name="SkillId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VacancyRe__Vacan__5FB337D6">
+          <End Role="Vacancies" Type="Self.Vacancies" Multiplicity="1" />
+          <End Role="VacancyResponses" Type="Self.VacancyResponses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vacancies">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VacancyResponses">
+              <PropertyRef Name="VacancyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VacancySk__Vacan__5812160E">
+          <End Role="Vacancies" Type="Self.Vacancies" Multiplicity="1" />
+          <End Role="VacancySkills" Type="Self.VacancySkills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vacancies">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VacancySkills">
+              <PropertyRef Name="VacancyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ResumeSkills">
+          <End Role="Resumes" Type="Self.Resumes" Multiplicity="*" />
+          <End Role="Skills" Type="Self.Skills" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="vacancyEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cities" EntityType="Self.Cities" />
+          <EntitySet Name="Companies" EntityType="Self.Companies" />
+          <EntitySet Name="Educations" EntityType="Self.Educations" />
+          <EntitySet Name="EmploymentTypes" EntityType="Self.EmploymentTypes" />
+          <EntitySet Name="FavoriteResumes" EntityType="Self.FavoriteResumes" />
+          <EntitySet Name="FavoriteVacancies" EntityType="Self.FavoriteVacancies" />
+          <EntitySet Name="Interviews" EntityType="Self.Interviews" />
+          <EntitySet Name="Notifications" EntityType="Self.Notifications" />
+          <EntitySet Name="ResponseStatuses" EntityType="Self.ResponseStatuses" />
+          <EntitySet Name="ResumeEducations" EntityType="Self.ResumeEducations" />
+          <EntitySet Name="Resumes" EntityType="Self.Resumes" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" />
+          <EntitySet Name="Skills" EntityType="Self.Skills" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <EntitySet Name="Vacancies" EntityType="Self.Vacancies" />
+          <EntitySet Name="VacancyResponses" EntityType="Self.VacancyResponses" />
+          <EntitySet Name="VacancySkills" EntityType="Self.VacancySkills" />
+          <EntitySet Name="WorkExperiences" EntityType="Self.WorkExperiences" />
+          <AssociationSet Name="FK__Companies__CityI__37A5467C" Association="Self.FK__Companies__CityI__37A5467C">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Companies" EntitySet="Companies" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Resumes__CityId__3D5E1FD2" Association="Self.FK__Resumes__CityId__3D5E1FD2">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Resumes" EntitySet="Resumes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vacancies__CityI__5070F446" Association="Self.FK__Vacancies__CityI__5070F446">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Vacancies" EntitySet="Vacancies" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Companies__UserI__38996AB5" Association="Self.FK__Companies__UserI__38996AB5">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Companies" EntitySet="Companies" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vacancies__Compa__4F7CD00D" Association="Self.FK__Vacancies__Compa__4F7CD00D">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="Vacancies" EntitySet="Vacancies" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ResumeEdu__Educa__4CA06362" Association="Self.FK__ResumeEdu__Educa__4CA06362">
+            <End Role="Educations" EntitySet="Educations" />
+            <End Role="ResumeEducations" EntitySet="ResumeEducations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Resumes__Educati__3C69FB99" Association="Self.FK__Resumes__Educati__3C69FB99">
+            <End Role="Educations" EntitySet="Educations" />
+            <End Role="Resumes" EntitySet="Resumes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Resumes__Employm__3E52440B" Association="Self.FK__Resumes__Employm__3E52440B">
+            <End Role="EmploymentTypes" EntitySet="EmploymentTypes" />
+            <End Role="Resumes" EntitySet="Resumes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Vacancies__Emplo__5165187F" Association="Self.FK__Vacancies__Emplo__5165187F">
+            <End Role="EmploymentTypes" EntitySet="EmploymentTypes" />
+            <End Role="Vacancies" EntitySet="Vacancies" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FavoriteR__Resum__6FE99F9F" Association="Self.FK__FavoriteR__Resum__6FE99F9F">
+            <End Role="Resumes" EntitySet="Resumes" />
+            <End Role="FavoriteResumes" EntitySet="FavoriteResumes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FavoriteR__UserI__6EF57B66" Association="Self.FK__FavoriteR__UserI__6EF57B66">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="FavoriteResumes" EntitySet="FavoriteResumes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FavoriteV__UserI__6A30C649" Association="Self.FK__FavoriteV__UserI__6A30C649">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="FavoriteVacancies" EntitySet="FavoriteVacancies" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FavoriteV__Vacan__6B24EA82" Association="Self.FK__FavoriteV__Vacan__6B24EA82">
+            <End Role="Vacancies" EntitySet="Vacancies" />
+            <End Role="FavoriteVacancies" EntitySet="FavoriteVacancies" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Interview__Respo__66603565" Association="Self.FK__Interview__Respo__66603565">
+            <End Role="VacancyResponses" EntitySet="VacancyResponses" />
+            <End Role="Interviews" EntitySet="Interviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Notificat__UserI__73BA3083" Association="Self.FK__Notificat__UserI__73BA3083">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Notifications" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VacancyRe__Statu__628FA481" Association="Self.FK__VacancyRe__Statu__628FA481">
+            <End Role="ResponseStatuses" EntitySet="ResponseStatuses" />
+            <End Role="VacancyResponses" EntitySet="VacancyResponses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ResumeEdu__Resum__4BAC3F29" Association="Self.FK__ResumeEdu__Resum__4BAC3F29">
+            <End Role="Resumes" EntitySet="Resumes" />
+            <End Role="ResumeEducations" EntitySet="ResumeEducations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Resumes__UserId__3B75D760" Association="Self.FK__Resumes__UserId__3B75D760">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Resumes" EntitySet="Resumes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VacancyRe__Resum__60A75C0F" Association="Self.FK__VacancyRe__Resum__60A75C0F">
+            <End Role="Resumes" EntitySet="Resumes" />
+            <End Role="VacancyResponses" EntitySet="VacancyResponses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__WorkExper__Resum__47DBAE45" Association="Self.FK__WorkExper__Resum__47DBAE45">
+            <End Role="Resumes" EntitySet="Resumes" />
+            <End Role="WorkExperiences" EntitySet="WorkExperiences" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Users__RoleId__286302EC" Association="Self.FK__Users__RoleId__286302EC">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VacancySk__Skill__59063A47" Association="Self.FK__VacancySk__Skill__59063A47">
+            <End Role="Skills" EntitySet="Skills" />
+            <End Role="VacancySkills" EntitySet="VacancySkills" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VacancyRe__Vacan__5FB337D6" Association="Self.FK__VacancyRe__Vacan__5FB337D6">
+            <End Role="Vacancies" EntitySet="Vacancies" />
+            <End Role="VacancyResponses" EntitySet="VacancyResponses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VacancySk__Vacan__5812160E" Association="Self.FK__VacancySk__Vacan__5812160E">
+            <End Role="Vacancies" EntitySet="Vacancies" />
+            <End Role="VacancySkills" EntitySet="VacancySkills" />
+          </AssociationSet>
+          <AssociationSet Name="ResumeSkills" Association="Self.ResumeSkills">
+            <End Role="Resumes" EntitySet="Resumes" />
+            <End Role="Skills" EntitySet="Skills" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище vacancyModelContainer" CdmEntityContainer="vacancyEntities">
+          <EntitySetMapping Name="Cities">
+            <EntityTypeMapping TypeName="vacancyModel.Cities">
+              <MappingFragment StoreEntitySet="Cities">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="vacancyModel.Companies">
+              <MappingFragment StoreEntitySet="Companies">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="LogoPath" ColumnName="LogoPath" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Educations">
+            <EntityTypeMapping TypeName="vacancyModel.Educations">
+              <MappingFragment StoreEntitySet="Educations">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmploymentTypes">
+            <EntityTypeMapping TypeName="vacancyModel.EmploymentTypes">
+              <MappingFragment StoreEntitySet="EmploymentTypes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FavoriteResumes">
+            <EntityTypeMapping TypeName="vacancyModel.FavoriteResumes">
+              <MappingFragment StoreEntitySet="FavoriteResumes">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ResumeId" ColumnName="ResumeId" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FavoriteVacancies">
+            <EntityTypeMapping TypeName="vacancyModel.FavoriteVacancies">
+              <MappingFragment StoreEntitySet="FavoriteVacancies">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="VacancyId" ColumnName="VacancyId" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Interviews">
+            <EntityTypeMapping TypeName="vacancyModel.Interviews">
+              <MappingFragment StoreEntitySet="Interviews">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ResponseId" ColumnName="ResponseId" />
+                <ScalarProperty Name="InterviewDate" ColumnName="InterviewDate" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="OnlineMeetingLink" ColumnName="OnlineMeetingLink" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="IsCompleted" ColumnName="IsCompleted" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notifications">
+            <EntityTypeMapping TypeName="vacancyModel.Notifications">
+              <MappingFragment StoreEntitySet="Notifications">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="NotificationType" ColumnName="NotificationType" />
+                <ScalarProperty Name="RelatedEntityId" ColumnName="RelatedEntityId" />
+                <ScalarProperty Name="RelatedEntityType" ColumnName="RelatedEntityType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResponseStatuses">
+            <EntityTypeMapping TypeName="vacancyModel.ResponseStatuses">
+              <MappingFragment StoreEntitySet="ResponseStatuses">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResumeEducations">
+            <EntityTypeMapping TypeName="vacancyModel.ResumeEducations">
+              <MappingFragment StoreEntitySet="ResumeEducations">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ResumeId" ColumnName="ResumeId" />
+                <ScalarProperty Name="Institution" ColumnName="Institution" />
+                <ScalarProperty Name="Specialization" ColumnName="Specialization" />
+                <ScalarProperty Name="EducationLevelId" ColumnName="EducationLevelId" />
+                <ScalarProperty Name="YearCompleted" ColumnName="YearCompleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Resumes">
+            <EntityTypeMapping TypeName="vacancyModel.Resumes">
+              <MappingFragment StoreEntitySet="Resumes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="SalaryExpectation" ColumnName="SalaryExpectation" />
+                <ScalarProperty Name="EducationLevelId" ColumnName="EducationLevelId" />
+                <ScalarProperty Name="ExperienceYears" ColumnName="ExperienceYears" />
+                <ScalarProperty Name="AboutMe" ColumnName="AboutMe" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="EmploymentTypeId" ColumnName="EmploymentTypeId" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="vacancyModel.Roles">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Skills">
+            <EntityTypeMapping TypeName="vacancyModel.Skills">
+              <MappingFragment StoreEntitySet="Skills">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="vacancyModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FatherName" ColumnName="FatherName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vacancies">
+            <EntityTypeMapping TypeName="vacancyModel.Vacancies">
+              <MappingFragment StoreEntitySet="Vacancies">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Requirements" ColumnName="Requirements" />
+                <ScalarProperty Name="Responsibilities" ColumnName="Responsibilities" />
+                <ScalarProperty Name="SalaryFrom" ColumnName="SalaryFrom" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="EmploymentTypeId" ColumnName="EmploymentTypeId" />
+                <ScalarProperty Name="ExperienceRequired" ColumnName="ExperienceRequired" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ViewsCount" ColumnName="ViewsCount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VacancyResponses">
+            <EntityTypeMapping TypeName="vacancyModel.VacancyResponses">
+              <MappingFragment StoreEntitySet="VacancyResponses">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="VacancyId" ColumnName="VacancyId" />
+                <ScalarProperty Name="ResumeId" ColumnName="ResumeId" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="ResponseDate" ColumnName="ResponseDate" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="EmployerComment" ColumnName="EmployerComment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VacancySkills">
+            <EntityTypeMapping TypeName="vacancyModel.VacancySkills">
+              <MappingFragment StoreEntitySet="VacancySkills">
+                <ScalarProperty Name="VacancyId" ColumnName="VacancyId" />
+                <ScalarProperty Name="SkillId" ColumnName="SkillId" />
+                <ScalarProperty Name="IsRequired" ColumnName="IsRequired" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkExperiences">
+            <EntityTypeMapping TypeName="vacancyModel.WorkExperiences">
+              <MappingFragment StoreEntitySet="WorkExperiences">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ResumeId" ColumnName="ResumeId" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsCurrent" ColumnName="IsCurrent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ResumeSkills" TypeName="vacancyModel.ResumeSkills" StoreEntitySet="ResumeSkills">
+            <EndProperty Name="Resumes">
+              <ScalarProperty Name="Id" ColumnName="ResumeId" />
+            </EndProperty>
+            <EndProperty Name="Skills">
+              <ScalarProperty Name="Id" ColumnName="SkillId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

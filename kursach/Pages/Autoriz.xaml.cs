@@ -66,19 +66,19 @@ namespace kursach.Pages
                     CurrentUser.RoleId = user.RoleId;
                     CurrentUser.FullName = $"{user.LastName} {user.FirstName} {user.FatherName}";
 
-                    /*// Переходим на главную страницу в зависимости от роли
+                    // Переходим на главную страницу в зависимости от роли
                     switch (user.RoleId)
                     {
-                        *//*case 1: // Администратор
-                            NavigationService.Navigate(new AdminPage());
-                            break;
-                        case 2: // Работодатель
-                            NavigationService.Navigate(new EmployerPage());
-                            break;*//*
+                    //    *//*case 1: // Администратор
+                    //        NavigationService.Navigate(new AdminPage());
+                    //break;
+                    //    case 2: // Работодатель
+                    //    NavigationService.Navigate(new EmployerPage());
+                    //    break; *//*
                         case 3: // Соискатель
-                            NavigationService.Navigate(new UserPage());
-                            break;
-                    }*/
+                        NavigationService.Navigate(new UserPage());
+                        break;
+                    }
                 }
             }
             catch (Exception ex)

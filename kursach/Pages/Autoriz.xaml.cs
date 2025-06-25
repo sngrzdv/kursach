@@ -69,17 +69,14 @@ namespace kursach.Pages
                     /*// Переходим на главную страницу в зависимости от роли
                     switch (user.RoleId)
                     {
-                        case 1: // Администратор
+                        *//*case 1: // Администратор
                             NavigationService.Navigate(new AdminPage());
                             break;
                         case 2: // Работодатель
                             NavigationService.Navigate(new EmployerPage());
-                            break;
+                            break;*//*
                         case 3: // Соискатель
-                            NavigationService.Navigate(new JobSeekerPage());
-                            break;
-                        default:
-                            NavigationService.Navigate(new MainPage());
+                            NavigationService.Navigate(new UserPage());
                             break;
                     }*/
                 }
@@ -93,7 +90,7 @@ namespace kursach.Pages
         private void Register_Click(object sender, RoutedEventArgs e)
         {
             // Переход на страницу регистрации
-            /*NavigationService.Navigate(new Registr());*/
+            NavigationService.Navigate(new Registr());
         }
 
         private void ShowError(string message)

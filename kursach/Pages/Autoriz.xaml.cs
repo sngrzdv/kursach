@@ -1,89 +1,92 @@
 ﻿using System;
 using kursach.AppData;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace kursach.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для Autoriz.xaml
-    /// </summary>
     public partial class Autoriz : Page
     {
+        // Подключение к базе данных
+        private readonly vacancyEntities db = new vacancyEntities();
+
         public Autoriz()
         {
             InitializeComponent();
+
+            // Установка фокуса на поле email при загрузке
+            Loaded += (s, e) => tbLogin.Focus();
         }
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            string login = tbLogin.Text.Trim();
-            string password = pbPassword.Password.Trim();
-
-            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
-            {
-                ShowError("Пожалуйста, заполните все поля");
-                return;
-            }
-
             try
             {
-                using (var context = new vacancyEntities()) // Замените YourDbContext на ваш контекст БД
+                // Получаем данные из полей ввода
+                string email = tbLogin.Text.Trim();
+                string password = pbPassword.Password;
+
+                // Валидация полей
+                if (string.IsNullOrEmpty(email))
                 {
-                    // Ищем пользователя по email (логину)
-                    var user = context.Users.FirstOrDefault(u => u.Email == login);
+                    ShowError("Введите email");
+                    return;
+                }
 
-                    if (user == null)
-                    {
-                        ShowError("Пользователь с таким email не найден");
-                        return;
-                    }
+                if (string.IsNullOrEmpty(password))
+                {
+                    ShowError("Введите пароль");
+                    return;
+                }
 
-                    // Проверяем пароль (в реальном проекте используйте хеширование!)
-                    if (user.Password != password)
-                    {
-                        ShowError("Неверный пароль");
-                        return;
-                    }
+                // Поиск пользователя в базе
+                var user = db.Users.FirstOrDefault(u => u.Email == email);
 
-                    // Обновляем дату последнего входа
-                    user.LastLoginDate = DateTime.Now;
-                    context.SaveChanges();
+                if (user == null)
+                {
+                    ShowError("Пользователь не найден");
+                    return;
+                }
 
-                    // Сохраняем данные пользователя (например, в статическом классе)
-                    CurrentUser.Id = user.Id;
-                    CurrentUser.RoleId = user.RoleId;
-                    CurrentUser.FullName = $"{user.LastName} {user.FirstName} {user.FatherName}";
+                // Проверка пароля (в реальном проекте используйте хеширование!)
+                if (user.Password != password)
+                {
+                    ShowError("Неверный пароль");
+                    return;
+                }
 
-                    // Переходим на главную страницу в зависимости от роли
-                    switch (user.RoleId)
-                    {
-                    //    *//*case 1: // Администратор
-                    //        NavigationService.Navigate(new AdminPage());
-                    //break;
-                    //    case 2: // Работодатель
-                    //    NavigationService.Navigate(new EmployerPage());
-                    //    break; *//*
-                        case 3: // Соискатель
+                // Сохраняем данные пользователя
+                CurrentUser.Id = user.Id;
+                CurrentUser.RoleId = user.RoleId;
+                CurrentUser.FullName = $"{user.LastName} {user.FirstName}";
+                CurrentUser.Email = user.Email;
+
+                // Обновляем дату последнего входа
+                user.LastLoginDate = DateTime.Now;
+                db.SaveChanges();
+
+                // Перенаправляем в зависимости от роли
+                switch (user.RoleId)
+                {
+                    case 1: // Администратор
+                        NavigationService.Navigate(new AdminPage());
+                        break;
+                    case 2: // Работодатель
+                        NavigationService.Navigate(new ManagerPage());
+                        break;
+                    case 3: // Соискатель
                         NavigationService.Navigate(new UserPage());
                         break;
-                    }
+                    default:
+                        ShowError("Неизвестная роль пользователя");
+                        break;
                 }
             }
             catch (Exception ex)
             {
-                ShowError($"Ошибка при авторизации: {ex.Message}");
+                ShowError($"Ошибка авторизации: {ex.Message}");
             }
         }
 
@@ -98,13 +101,5 @@ namespace kursach.Pages
             tbError.Text = message;
             errorBorder.Visibility = Visibility.Visible;
         }
-    }
-
-    // Статический класс для хранения данных текущего пользователя
-    public static class CurrentUser
-    {
-        public static int Id { get; set; }
-        public static int RoleId { get; set; }
-        public static string FullName { get; set; }
     }
 }

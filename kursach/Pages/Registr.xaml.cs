@@ -22,138 +22,112 @@ namespace kursach.Pages
     /// </summary>
     public partial class Registr : Page
     {
+        private readonly vacancyEntities db = new vacancyEntities();
+
         public Registr()
         {
             InitializeComponent();
-            cbRole.SelectedIndex = 0; // Устанавливаем первый элемент по умолчанию
+            Loaded += (s, e) => tbFirstName.Focus();
         }
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                ResetErrors();
-
                 // Валидация данных
-                ValidateFields();
+                if (!ValidateFields())
+                    return;
 
-                using (var db = new vacancyEntities())
+                // Проверка уникальности email
+                if (db.Users.Any(u => u.Email == tbEmail.Text.Trim()))
                 {
-                    // Проверка на существование пользователя с таким email
-                    if (db.Users.Any(u => u.Email == tbEmail.Text))
-                    {
-                        throw new Exception("Пользователь с таким email уже существует");
-                    }
-
-                    // Проверка на существование пользователя с таким телефоном
-                    if (db.Users.Any(u => u.Phone == tbPhone.Text))
-                    {
-                        throw new Exception("Пользователь с таким телефоном уже существует");
-                    }
-
-                    // Получаем выбранную роль из ComboBox
-                    var selectedRoleItem = (ComboBoxItem)cbRole.SelectedItem;
-                    int roleId = int.Parse(selectedRoleItem.Tag.ToString());
-
-                    // Создание нового пользователя
-                    var newUser = new Users
-                    {
-                        FirstName = tbFirstName.Text.Trim(),
-                        LastName = tbLastName.Text.Trim(),
-                        FatherName = tbFatherName.Text.Trim(),
-                        Email = tbEmail.Text.Trim(),
-                        Phone = tbPhone.Text.Trim(),
-                        Password = HashPassword(pbPassword.Password), // Хеширование пароля
-                        RoleId = roleId,
-                        RegistrationDate = DateTime.Now
-                    };
-
-                    db.Users.Add(newUser);
-                    db.SaveChanges();
-
-                    // Успешная регистрация
-                    MessageBox.Show(
-                        "Регистрация прошла успешно! Теперь вы можете войти в систему.",
-                        "Успех",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Information
-                    );
-
-                    // Переход на страницу авторизации
-                    NavigationService?.Navigate(new Autoriz());
+                    ShowError("Пользователь с таким email уже существует");
+                    return;
                 }
+
+                // Создание нового пользователя
+                var newUser = new Users
+                {
+                    FirstName = tbFirstName.Text.Trim(),
+                    LastName = tbLastName.Text.Trim(),
+                    FatherName = tbFatherName.Text.Trim(),
+                    Email = tbEmail.Text.Trim(),
+                    Phone = tbPhone.Text.Trim(),
+                    Password = pbPassword.Password, // В реальном проекте хешируйте!
+                    RoleId = int.Parse(((ComboBoxItem)cbRole.SelectedItem).Tag.ToString()),
+                    RegistrationDate = DateTime.Now
+                };
+
+                // Сохранение в базу
+                db.Users.Add(newUser);
+                db.SaveChanges();
+
+                // Автоматическая авторизация после регистрации
+                CurrentUser.Id = newUser.Id;
+                CurrentUser.RoleId = newUser.RoleId;
+                CurrentUser.FullName = $"{newUser.LastName} {newUser.FirstName}";
+                CurrentUser.Email = newUser.Email;
+
+                MessageBox.Show("Регистрация прошла успешно!", "Успех",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    NavigationService.Navigate(new Autoriz());
             }
             catch (Exception ex)
             {
-                ShowError(ex.Message);
+                ShowError($"Ошибка регистрации: {ex.Message}");
             }
         }
 
-        private void ValidateFields()
+        private bool ValidateFields()
         {
-            // Проверка обязательных полей
             if (string.IsNullOrWhiteSpace(tbFirstName.Text))
-                throw new Exception("Введите имя");
+            {
+                ShowError("Введите имя");
+                return false;
+            }
 
             if (string.IsNullOrWhiteSpace(tbLastName.Text))
-                throw new Exception("Введите фамилию");
-
-            if (string.IsNullOrWhiteSpace(tbEmail.Text))
-                throw new Exception("Введите email");
+            {
+                ShowError("Введите фамилию");
+                return false;
+            }
 
             if (!IsValidEmail(tbEmail.Text))
-                throw new Exception("Введите корректный email");
-
-            if (string.IsNullOrWhiteSpace(tbPhone.Text))
-                throw new Exception("Введите телефон");
+            {
+                ShowError("Введите корректный email");
+                return false;
+            }
 
             if (!IsValidPhone(tbPhone.Text))
-                throw new Exception("Введите корректный телефон (формат: +71234567890)");
-
-            if (cbRole.SelectedItem == null)
-                throw new Exception("Выберите роль");
-
-            if (string.IsNullOrWhiteSpace(pbPassword.Password))
-                throw new Exception("Введите пароль");
+            {
+                ShowError("Телефон должен быть в формате +71234567890");
+                return false;
+            }
 
             if (pbPassword.Password.Length < 6)
-                throw new Exception("Пароль должен содержать минимум 6 символов");
+            {
+                ShowError("Пароль должен содержать минимум 6 символов");
+                return false;
+            }
 
             if (pbPassword.Password != pbConfirmPassword.Password)
-                throw new Exception("Пароли не совпадают");
+            {
+                ShowError("Пароли не совпадают");
+                return false;
+            }
+
+            return true;
         }
 
         private bool IsValidEmail(string email)
         {
-            try
-            {
-                var regex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
-                return regex.IsMatch(email);
-            }
-            catch
-            {
-                return false;
-            }
+            return Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
         }
 
         private bool IsValidPhone(string phone)
         {
-            try
-            {
-                var regex = new Regex(@"^\+?[0-9]{11,15}$");
-                return regex.IsMatch(phone);
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        private string HashPassword(string password)
-        {
-            // В реальном проекте используйте:
-            // return BCrypt.Net.BCrypt.HashPassword(password);
-            return password; // Замените на реальное хеширование в продакшене
+            return Regex.IsMatch(phone, @"^\+7\d{10}$");
         }
 
         private void ShowError(string message)
@@ -162,20 +136,9 @@ namespace kursach.Pages
             errorBorder.Visibility = Visibility.Visible;
         }
 
-        private void ResetErrors()
-        {
-            errorBorder.Visibility = Visibility.Collapsed;
-            tbError.Text = string.Empty;
-        }
-
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService?.Navigate(new Autoriz());
-        }
-
-        private void cbRole_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // Можно добавить дополнительную логику при изменении выбора роли
+            NavigationService.Navigate(new Autoriz());
         }
     }
 }

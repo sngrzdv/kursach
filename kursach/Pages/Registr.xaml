@@ -5,90 +5,32 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:kursach.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="850"
-      Title="Регистрация" 
-      Background="#FFFAFAFA">
+      d:DesignHeight="700" d:DesignWidth="900"
+      Title="Регистрация"
+      Background="#FF4f4843">
 
     <Grid>
-        <!-- Основная карточка регистрации -->
-        <Border Background="White" CornerRadius="12" 
-                VerticalAlignment="Center" HorizontalAlignment="Center"
-                Width="450" Padding="30"
-                BorderBrush="#E0E0E0" BorderThickness="1"
-                Effect="{StaticResource ShadowEffect}">
-            <ScrollViewer VerticalScrollBarVisibility="Auto" 
-                          HorizontalScrollBarVisibility="Disabled"
-                          Padding="0" Margin="0">
+        <!-- Основная карточка -->
+        <Border Background="#FF9e948d" 
+                CornerRadius="12"
+                Width="500"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                BorderBrush="#FF4f4843"
+                BorderThickness="1"
+                Padding="30">
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
-                    <TextBlock Text="Регистрация" 
-                               FontSize="24" FontWeight="SemiBold" 
-                               Foreground="#333333"
-                               HorizontalAlignment="Center" Margin="0,0,0,20"/>
+                    <!-- Заголовок -->
+                    <TextBlock Text="Создать аккаунт"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               Foreground="Black"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,25"/>
 
-                    <!-- Имя и Фамилия в одной строке -->
-                    <Grid Margin="0,0,0,10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="10"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <!-- Имя -->
-                        <StackPanel Grid.Column="0">
-                            <TextBlock Text="Имя" FontSize="13" Foreground="#555555" Margin="0,0,0,3"/>
-                            <TextBox x:Name="tbFirstName" Style="{StaticResource ModernTextBox}" 
-                                     FontSize="14" Padding="8" Height="38"/>
-                        </StackPanel>
-
-                        <!-- Фамилия -->
-                        <StackPanel Grid.Column="2">
-                            <TextBlock Text="Фамилия" FontSize="13" Foreground="#555555" Margin="0,0,0,3"/>
-                            <TextBox x:Name="tbLastName" Style="{StaticResource ModernTextBox}" 
-                                     FontSize="14" Padding="8" Height="38"/>
-                        </StackPanel>
-                    </Grid>
-
-                    <!-- Отчество -->
-                    <StackPanel Margin="0,0,0,10">
-                        <TextBlock Text="Отчество (необязательно)" FontSize="13" Foreground="#555555" Margin="0,0,0,3"/>
-                        <TextBox x:Name="tbFatherName" Style="{StaticResource ModernTextBox}" 
-                                 FontSize="14" Padding="8" Height="38"/>
-                    </StackPanel>
-
-                    <!-- Email и Телефон в одной строке -->
-                    <Grid Margin="0,0,0,10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="10"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <!-- Email -->
-                        <StackPanel Grid.Column="0">
-                            <TextBlock Text="Email" FontSize="13" Foreground="#555555" Margin="0,0,0,3"/>
-                            <TextBox x:Name="tbEmail" Style="{StaticResource ModernTextBox}" 
-                                     FontSize="14" Padding="8" Height="38"/>
-                        </StackPanel>
-
-                        <!-- Телефон -->
-                        <StackPanel Grid.Column="2">
-                            <TextBlock Text="Телефон" FontSize="13" Foreground="#555555" Margin="0,0,0,3"/>
-                            <TextBox x:Name="tbPhone" Style="{StaticResource ModernTextBox}" 
-                                     FontSize="14" Padding="8" Height="38"/>
-                        </StackPanel>
-                    </Grid>
-
-                    <!-- Роль -->
-                    <StackPanel Margin="0,0,0,10">
-                        <TextBlock Text="Роль" FontSize="13" Foreground="#555555" Margin="0,0,0,3"/>
-                        <ComboBox x:Name="cbRole" Style="{StaticResource ModernComboBox}" 
-                                  FontSize="14" Padding="8" Height="38" SelectionChanged="cbRole_SelectionChanged" SelectedIndex="0">
-                            <ComboBoxItem Content="Ищу работу" Tag="2"/>
-                            <ComboBoxItem Content="Ищу сотруников" Tag="3"/>
-                        </ComboBox>
-                    </StackPanel>
-
-                    <!-- Пароль и подтверждение в одной строке -->
+                    <!-- Имя и Фамилия -->
                     <Grid Margin="0,0,0,15">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -96,42 +38,117 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <!-- Пароль -->
                         <StackPanel Grid.Column="0">
-                            <TextBlock Text="Пароль" FontSize="13" Foreground="#555555" Margin="0,0,0,3"/>
-                            <PasswordBox x:Name="pbPassword" Style="{StaticResource ModernPasswordBox}" 
-                                        FontSize="14" Padding="8" Height="38"/>
+                            <TextBlock Text="Имя*" Foreground="#FF4f4843" Margin="0,0,0,5"/>
+                            <TextBox x:Name="tbFirstName" Background="#FFe6e3e1" Padding="8" Height="40"/>
                         </StackPanel>
 
-                        <!-- Подтверждение -->
                         <StackPanel Grid.Column="2">
-                            <TextBlock Text="Подтвердите" FontSize="13" Foreground="#555555" Margin="0,0,0,3"/>
-                            <PasswordBox x:Name="pbConfirmPassword" Style="{StaticResource ModernPasswordBox}" 
-                                        FontSize="14" Padding="8" Height="38"/>
+                            <TextBlock Text="Фамилия*" Foreground="#FF4f4843" Margin="0,0,0,5"/>
+                            <TextBox x:Name="tbLastName" Background="#FFe6e3e1" Padding="8" Height="40"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Отчество -->
+                    <StackPanel Margin="0,0,0,15">
+                        <TextBlock Text="Отчество" Foreground="#FF4f4843" Margin="0,0,0,5"/>
+                        <TextBox x:Name="tbFatherName" Background="#FFe6e3e1" Padding="8" Height="40"/>
+                    </StackPanel>
+
+                    <!-- Email и Телефон -->
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Email*" Foreground="#FF4f4843" Margin="0,0,0,5"/>
+                            <TextBox x:Name="tbEmail" Background="#FFe6e3e1" Padding="8" Height="40"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Телефон*" Foreground="#FF4f4843" Margin="0,0,0,5"/>
+                            <TextBox x:Name="tbPhone" Background="#FFe6e3e1" Padding="8" Height="40"
+                                     Text="+7"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Роль -->
+                    <StackPanel Margin="0,0,0,15">
+                        <TextBlock Text="Тип аккаунта*" Foreground="#FF4f4843" Margin="0,0,0,5"/>
+                        <ComboBox x:Name="cbRole" Background="#FFe6e3e1" Padding="8" Height="40">
+                            <ComboBoxItem Content="Я ищу работу" Tag="3" IsSelected="True"/>
+                            <ComboBoxItem Content="Я ищу сотрудников" Tag="2"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <!-- Пароли -->
+                    <Grid Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Пароль*" Foreground="#FF4f4843" Margin="0,0,0,5"/>
+                            <PasswordBox x:Name="pbPassword" Background="#FFe6e3e1" Padding="8" Height="40"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Подтвердите*" Foreground="#FF4f4843" Margin="0,0,0,5"/>
+                            <PasswordBox x:Name="pbConfirmPassword" Background="#FFe6e3e1" Padding="8" Height="40"/>
                         </StackPanel>
                     </Grid>
 
                     <!-- Кнопка регистрации -->
-                    <Button Content="Зарегистрироваться" Style="{StaticResource PrimaryButton}"
-                            Height="42" FontSize="15" FontWeight="SemiBold"
-                            Click="RegisterButton_Click" Margin="0,0,0,10"/>
+                    <Button Content="Зарегистрироваться"
+                            Background="#FF4f4843"
+                            Foreground="#FFe6e3e1"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Height="50"
+                            Click="RegisterButton_Click"
+                            Cursor="Hand">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="#FF4f4843"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FF3a3633"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
 
                     <!-- Ссылка на авторизацию -->
-                    <TextBlock HorizontalAlignment="Center" FontSize="13">
-                        <Run Text="Уже есть аккаунт? " Foreground="#666666"/>
-                        <Hyperlink Click="Login_Click" Foreground="#0078D7" FontWeight="SemiBold">
+                    <TextBlock HorizontalAlignment="Center" Margin="0,15,0,0">
+                        <Run Text="Уже есть аккаунт? " Foreground="Black"/>
+                        <Hyperlink Click="Login_Click" Foreground="#FFe6e3e1" FontWeight="SemiBold">
                             Войти
                         </Hyperlink>
                     </TextBlock>
 
                     <!-- Блок ошибок -->
-                    <Border x:Name="errorBorder" Background="#FFF5F5F5" CornerRadius="4" 
-                            Margin="0,10,0,0" Padding="10" Visibility="Collapsed">
+                    <Border x:Name="errorBorder"
+                            Background="#FFe6e3e1"
+                            CornerRadius="4"
+                            Margin="0,15,0,0"
+                            Padding="12"
+                            Visibility="Collapsed"
+                            BorderBrush="#FF9e948d"
+                            BorderThickness="1">
                         <StackPanel Orientation="Horizontal">
-                            <Path Data="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" 
-                                   Fill="#D32F2F" Stretch="Uniform" Width="16" Height="16" Margin="0,0,6,0"/>
-                            <TextBlock x:Name="tbError" Foreground="#D32F2F" TextWrapping="Wrap" 
-                                       FontSize="13" VerticalAlignment="Center"/>
+                            <TextBlock Text="!" 
+                                       Foreground="#D32F2F" 
+                                       FontWeight="Bold" 
+                                       Margin="0,0,8,0"/>
+                            <TextBlock x:Name="tbError" 
+                                       Foreground="#D32F2F" 
+                                       TextWrapping="Wrap"/>
                         </StackPanel>
                     </Border>
                 </StackPanel>

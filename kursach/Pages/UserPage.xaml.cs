@@ -1,5 +1,6 @@
 ﻿using kursach.AppData;
 using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,34 +17,38 @@ using System.Windows.Shapes;
 
 namespace kursach.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для UserPage.xaml
-    /// </summary>
     public partial class UserPage : Page
     {
+        private readonly vacancyEntities db = new vacancyEntities();
+        private IQueryable<Vacancies> _allVacanciesQuery;
+        private bool _isInitialized = false;
+
         public UserPage()
         {
             InitializeComponent();
-            Loaded += Page_Loaded;
+            Loaded += UserPage_Loaded;
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        private void UserPage_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadData();
-            SetupFilters();
+            if (!_isInitialized)
+            {
+                LoadData();
+                SetupEventHandlers();
+                _isInitialized = true;
+            }
         }
 
         private void LoadData()
         {
             try
             {
-                // Загрузка данных из базы
-                Vacancies = db.Vacancies
+                // Загрузка данных с использованием eager loading
+                _allVacanciesQuery = db.Vacancies
                     .Include(v => v.Companies)
                     .Include(v => v.Cities)
                     .Include(v => v.EmploymentTypes)
-                    .Where(v => v.IsActive)
-                    .ToList();
+                    .Where(v => v.IsActive);
 
                 // Загрузка городов для фильтра
                 CityFilterComboBox.ItemsSource = db.Cities.ToList();
@@ -54,15 +59,18 @@ namespace kursach.Pages
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка загрузки данных: " + ex.Message);
+                MessageBox.Show($"Ошибка загрузки данных: {ex.Message}", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private void SetupFilters()
+        private void SetupEventHandlers()
         {
-            // Обработчики событий для фильтров
+            // Обработчики для фильтров
             SearchBox.TextChanged += (s, e) => UpdateVacanciesList();
             CityFilterComboBox.SelectionChanged += (s, e) => UpdateVacanciesList();
+
+            // Обработчики для чекбоксов
             FullTimeCheckBox.Checked += (s, e) => UpdateVacanciesList();
             FullTimeCheckBox.Unchecked += (s, e) => UpdateVacanciesList();
             PartTimeCheckBox.Checked += (s, e) => UpdateVacanciesList();
@@ -71,57 +79,65 @@ namespace kursach.Pages
             RemoteCheckBox.Unchecked += (s, e) => UpdateVacanciesList();
             ProjectCheckBox.Checked += (s, e) => UpdateVacanciesList();
             ProjectCheckBox.Unchecked += (s, e) => UpdateVacanciesList();
-            SalaryFromTextBox.TextChanged += (s, e) => UpdateVacanciesList();
-            SalaryToTextBox.TextChanged += (s, e) => UpdateVacanciesList();
+
+            // Обработчики для радиокнопок сортировки
             SortByDate.Checked += (s, e) => UpdateVacanciesList();
             SortBySalary.Checked += (s, e) => UpdateVacanciesList();
             SortByRelevance.Checked += (s, e) => UpdateVacanciesList();
 
+            // Кнопка сброса фильтров
             ResetFiltersButton.Click += (s, e) => ResetFilters();
+
+            // Обработчики для текстовых полей зарплаты
+            SalaryFromTextBox.PreviewTextInput += NumericTextBox_PreviewTextInput;
+            SalaryToTextBox.PreviewTextInput += NumericTextBox_PreviewTextInput;
+            SalaryFromTextBox.TextChanged += (s, e) => UpdateVacanciesList();
+            SalaryToTextBox.TextChanged += (s, e) => UpdateVacanciesList();
         }
 
         private void UpdateVacanciesList()
         {
             try
             {
-                var filtered = allVacancies.AsQueryable();
+                var filtered = _allVacanciesQuery;
 
-                // Поиск
+                // Применяем фильтр по поисковому запросу
                 if (!string.IsNullOrWhiteSpace(SearchBox.Text))
                 {
-                    var search = SearchBox.Text.ToLower();
+                    var searchText = SearchBox.Text.ToLower();
                     filtered = filtered.Where(v =>
-                        v.Title.ToLower().Contains(search) ||
-                        v.Companies.Name.ToLower().Contains(search));
+                        v.Title.ToLower().Contains(searchText) ||
+                        v.Companies.Name.ToLower().Contains(searchText) ||
+                        v.Description.ToLower().Contains(searchText));
                 }
 
                 // Фильтр по городу
-                if (CityFilterComboBox.SelectedItem is Cities city)
+                if (CityFilterComboBox.SelectedItem is Cities selectedCity)
                 {
-                    filtered = filtered.Where(v => v.CityId == city.Id);
+                    filtered = filtered.Where(v => v.CityId == selectedCity.Id);
                 }
 
                 // Фильтр по типу занятости
-                var types = new List<int?>();
-                if (FullTimeCheckBox.IsChecked == true) types.Add(1);
-                if (PartTimeCheckBox.IsChecked == true) types.Add(2);
-                if (RemoteCheckBox.IsChecked == true) types.Add(3);
-                if (ProjectCheckBox.IsChecked == true) types.Add(4);
+                var employmentTypes = new System.Collections.Generic.List<int>();
+                if (FullTimeCheckBox.IsChecked == true) employmentTypes.Add(1);
+                if (PartTimeCheckBox.IsChecked == true) employmentTypes.Add(2);
+                if (RemoteCheckBox.IsChecked == true) employmentTypes.Add(5);
+                if (ProjectCheckBox.IsChecked == true) employmentTypes.Add(3);
 
-                if (types.Count > 0)
+                if (employmentTypes.Count > 0)
                 {
-                    filtered = filtered.Where(v => types.Contains(v.EmploymentTypeId));
+                    filtered = filtered.Where(v => employmentTypes.Contains(v.EmploymentTypeId ?? 0));
                 }
-                  
+
                 // Фильтр по зарплате
-                if (decimal.TryParse(SalaryFromTextBox.Text, out decimal min))
+                if (decimal.TryParse(SalaryFromTextBox.Text, out decimal minSalary))
                 {
-                    filtered = filtered.Where(v => v.SalaryFrom >= min);
+                    filtered = filtered.Where(v => v.SalaryFrom >= minSalary);
                 }
 
-                if (decimal.TryParse(SalaryToTextBox.Text, out decimal max))
+                if (decimal.TryParse(SalaryToTextBox.Text, out decimal maxSalary))
                 {
-                    filtered = filtered.Where(v => v.SalaryFrom <= max);
+                    filtered = filtered.Where(v => v.SalaryFrom <= maxSalary);
                 }
 
                 // Сортировка
@@ -133,12 +149,12 @@ namespace kursach.Pages
                 {
                     filtered = filtered.OrderByDescending(v => v.CreatedDate);
                 }
-                else
+                else // По релевантности (по умолчанию)
                 {
                     filtered = filtered.OrderByDescending(v => v.ViewsCount);
                 }
 
-                // Отображение
+                // Привязка данных к ListView
                 VacanciesListView.ItemsSource = filtered.ToList().Select(v => new
                 {
                     v.Id,
@@ -147,67 +163,77 @@ namespace kursach.Pages
                     Salary = v.SalaryFrom.HasValue ? $"{v.SalaryFrom:N0} руб." : "Договорная",
                     City = v.Cities?.Name ?? "Не указан",
                     EmploymentType = v.EmploymentTypes?.Name ?? "Не указан",
-                    IsFavorite = db.FavoriteVacancies.Any(f => f.UserId == currentUserId && f.VacancyId == v.Id)
+                    v.ViewsCount,
+                    v.CreatedDate
                 }).ToList();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка фильтрации: " + ex.Message);
+                MessageBox.Show($"Ошибка фильтрации: {ex.Message}", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void ResetFilters()
         {
-            SearchBox.Text = "";
+            // Сброс всех фильтров
+            SearchBox.Text = string.Empty;
             CityFilterComboBox.SelectedIndex = -1;
+
             FullTimeCheckBox.IsChecked = false;
             PartTimeCheckBox.IsChecked = false;
             RemoteCheckBox.IsChecked = false;
             ProjectCheckBox.IsChecked = false;
-            SalaryFromTextBox.Text = "";
-            SalaryToTextBox.Text = "";
+
+            SalaryFromTextBox.Text = string.Empty;
+            SalaryToTextBox.Text = string.Empty;
+
             SortByRelevance.IsChecked = true;
         }
 
-        private void ToggleFavorite_Click(object sender, RoutedEventArgs e)
+        private void NumericTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            var button = sender as Button;
-            if (button?.DataContext is dynamic vacancy)
+            // Разрешаем только цифры
+            if (!char.IsDigit(e.Text, 0))
             {
-                try
-                {
-                    if (vacancy.IsFavorite)
-                    {
-                        var fav = db.FavoriteVacancies
-                            .FirstOrDefault(f => f.UserId == currentUserId && f.VacancyId == vacancy.Id);
-                        if (fav != null)
-                        {
-                            db.FavoriteVacancies.Remove(fav);
-                            db.SaveChanges();
-                        }
-                    }
-                    else
-                    {
-                        db.FavoriteVacancies.Add(new FavoriteVacancies
-                        {
-                            UserId = currentUserId,
-                            VacancyId = vacancy.Id,
-                            AddedDate = DateTime.Now
-                        });
-                        db.SaveChanges();
-                    }
-                    UpdateVacanciesList();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Ошибка: " + ex.Message);
-                }
+                e.Handled = true;
             }
         }
 
-        private void NavigateToProfile_Click(object sender, RoutedEventArgs e)
+        // Обработчики для кнопок меню
+        private void VacanciesButton_Click(object sender, RoutedEventArgs e)
         {
-            // NavigationService.Navigate(new ProfilePage(currentUserId));
+            // Уже на странице вакансий
+        }
+
+        private void MyResumesButton_Click(object sender, RoutedEventArgs e)
+        {
+            /*NavigationService.Navigate(new MyResumesPage());*/
+        }
+
+        private void ResponsesButton_Click(object sender, RoutedEventArgs e)
+        {
+            /*NavigationService.Navigate(new ResponsesPage());*/
+        }
+
+        private void FavoritesButton_Click(object sender, RoutedEventArgs e)
+        {
+            /*NavigationService.Navigate(new FavoritesPage());*/
+        }
+
+        private void NotificationsButton_Click(object sender, RoutedEventArgs e)
+        {
+            /*NavigationService.Navigate(new NotificationsPage());*/
+        }
+
+        private void ProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            /*NavigationService.Navigate(new ProfilePage());*/
+        }
+
+        private void VacanciesButton_Click_1(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

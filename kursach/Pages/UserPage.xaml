@@ -90,6 +90,22 @@
             </Style.Triggers>
         </Style>
 
+        <!-- Стиль для выделения карточки при наведении -->
+        <Style x:Key="HoverVacancyItemStyle" TargetType="Border">
+            <Setter Property="Background" Value="#FF9e948d"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="BorderBrush" Value="#FF4f4843"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Setter Property="Padding" Value="15"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FFb8b0a9"/>
+                    <Setter Property="BorderBrush" Value="#0078D7"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
         <Style x:Key="IconButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="#FF9e948d"/>
@@ -246,6 +262,7 @@
                     <TextBox x:Name="SearchBox" 
                      Style="{StaticResource SearchTextBoxStyle}"
                      Margin="0,0,0,15"/>
+
                     <!-- Фильтр по городу -->
                     <Expander Header="Город" Margin="0,0,0,10" IsExpanded="True" >
                         <ComboBox x:Name="CityFilterComboBox" Style="{StaticResource CompactComboBox}" Margin="0,10,0,0"
@@ -307,8 +324,7 @@
                           ItemContainerStyle="{StaticResource VacancyItemStyle}" d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FF4f4843" BorderBrush="#FF4f4843">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Border Padding="15" Background="#FF9e948d" CornerRadius="4" 
-                                    BorderBrush="#FF4f4843" BorderThickness="1" Margin="0,0,0,10">
+                            <Border Style="{StaticResource HoverVacancyItemStyle}">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
@@ -317,7 +333,7 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Border Grid.Column="0" Width="50" Height="50" Background="#FFe6e3e1" 
-                                            CornerRadius="4" Margin="0,0,15,0"/>
+                        CornerRadius="4" Margin="0,0,15,0"/>
 
                                     <StackPanel Grid.Column="1">
                                         <TextBlock Text="{Binding Position}" FontSize="16" FontWeight="Bold"/>
@@ -332,8 +348,8 @@
                                     </StackPanel>
 
                                     <Button Grid.Column="2" Content="❤" FontSize="10" Padding="8" 
-                                            HorizontalAlignment="Right" VerticalAlignment="Top"
-                                            Style="{StaticResource IconButtonStyle}"/>
+                        HorizontalAlignment="Right" VerticalAlignment="Top"
+                        Style="{StaticResource IconButtonStyle}"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>

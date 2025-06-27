@@ -43,14 +43,12 @@ namespace kursach.Pages
         {
             try
             {
-                // Загрузка данных с использованием eager loading
                 _allVacanciesQuery = db.Vacancies
                     .Include(v => v.Companies)
                     .Include(v => v.Cities)
                     .Include(v => v.EmploymentTypes)
                     .Where(v => v.IsActive);
 
-                // Загрузка городов для фильтра
                 CityFilterComboBox.ItemsSource = db.Cities.ToList();
                 CityFilterComboBox.DisplayMemberPath = "Name";
                 CityFilterComboBox.SelectedIndex = -1;
@@ -66,11 +64,10 @@ namespace kursach.Pages
 
         private void SetupEventHandlers()
         {
-            // Обработчики для фильтров
+            // Обработчики фильтров
             SearchBox.TextChanged += (s, e) => UpdateVacanciesList();
             CityFilterComboBox.SelectionChanged += (s, e) => UpdateVacanciesList();
 
-            // Обработчики для чекбоксов
             FullTimeCheckBox.Checked += (s, e) => UpdateVacanciesList();
             FullTimeCheckBox.Unchecked += (s, e) => UpdateVacanciesList();
             PartTimeCheckBox.Checked += (s, e) => UpdateVacanciesList();
@@ -80,19 +77,35 @@ namespace kursach.Pages
             ProjectCheckBox.Checked += (s, e) => UpdateVacanciesList();
             ProjectCheckBox.Unchecked += (s, e) => UpdateVacanciesList();
 
-            // Обработчики для радиокнопок сортировки
             SortByDate.Checked += (s, e) => UpdateVacanciesList();
             SortBySalary.Checked += (s, e) => UpdateVacanciesList();
             SortByRelevance.Checked += (s, e) => UpdateVacanciesList();
 
-            // Кнопка сброса фильтров
             ResetFiltersButton.Click += (s, e) => ResetFilters();
 
-            // Обработчики для текстовых полей зарплаты
             SalaryFromTextBox.PreviewTextInput += NumericTextBox_PreviewTextInput;
             SalaryToTextBox.PreviewTextInput += NumericTextBox_PreviewTextInput;
             SalaryFromTextBox.TextChanged += (s, e) => UpdateVacanciesList();
             SalaryToTextBox.TextChanged += (s, e) => UpdateVacanciesList();
+
+            // Добавляем обработчик клика по карточке вакансии
+            VacanciesListView.PreviewMouseLeftButtonUp += VacanciesListView_PreviewMouseLeftButtonUp;
+        }
+
+        private void VacanciesListView_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            // Получаем элемент, по которому кликнули
+            var item = ItemsControl.ContainerFromElement(VacanciesListView, e.OriginalSource as DependencyObject) as ListViewItem;
+
+            if (item != null)
+            {
+                // Получаем данные вакансии
+                dynamic selectedVacancy = item.Content;
+                int vacancyId = selectedVacancy.Id;
+
+                // Открываем страницу с деталями вакансии
+                NavigationService.Navigate(new VacancyDetails(vacancyId));
+            }
         }
 
         private void UpdateVacanciesList()
@@ -101,7 +114,6 @@ namespace kursach.Pages
             {
                 var filtered = _allVacanciesQuery;
 
-                // Применяем фильтр по поисковому запросу
                 if (!string.IsNullOrWhiteSpace(SearchBox.Text))
                 {
                     var searchText = SearchBox.Text.ToLower();
@@ -111,13 +123,11 @@ namespace kursach.Pages
                         v.Description.ToLower().Contains(searchText));
                 }
 
-                // Фильтр по городу
                 if (CityFilterComboBox.SelectedItem is Cities selectedCity)
                 {
                     filtered = filtered.Where(v => v.CityId == selectedCity.Id);
                 }
 
-                // Фильтр по типу занятости
                 var employmentTypes = new System.Collections.Generic.List<int>();
                 if (FullTimeCheckBox.IsChecked == true) employmentTypes.Add(1);
                 if (PartTimeCheckBox.IsChecked == true) employmentTypes.Add(2);
@@ -129,7 +139,6 @@ namespace kursach.Pages
                     filtered = filtered.Where(v => employmentTypes.Contains(v.EmploymentTypeId ?? 0));
                 }
 
-                // Фильтр по зарплате
                 if (decimal.TryParse(SalaryFromTextBox.Text, out decimal minSalary))
                 {
                     filtered = filtered.Where(v => v.SalaryFrom >= minSalary);
@@ -140,7 +149,6 @@ namespace kursach.Pages
                     filtered = filtered.Where(v => v.SalaryFrom <= maxSalary);
                 }
 
-                // Сортировка
                 if (SortBySalary.IsChecked == true)
                 {
                     filtered = filtered.OrderByDescending(v => v.SalaryFrom);
@@ -149,12 +157,11 @@ namespace kursach.Pages
                 {
                     filtered = filtered.OrderByDescending(v => v.CreatedDate);
                 }
-                else // По релевантности (по умолчанию)
+                else
                 {
                     filtered = filtered.OrderByDescending(v => v.ViewsCount);
                 }
 
-                // Привязка данных к ListView
                 VacanciesListView.ItemsSource = filtered.ToList().Select(v => new
                 {
                     v.Id,
@@ -176,7 +183,6 @@ namespace kursach.Pages
 
         private void ResetFilters()
         {
-            // Сброс всех фильтров
             SearchBox.Text = string.Empty;
             CityFilterComboBox.SelectedIndex = -1;
 
@@ -193,47 +199,19 @@ namespace kursach.Pages
 
         private void NumericTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            // Разрешаем только цифры
             if (!char.IsDigit(e.Text, 0))
             {
                 e.Handled = true;
             }
         }
 
-        // Обработчики для кнопок меню
-        private void VacanciesButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Уже на странице вакансий
-        }
-
-        private void MyResumesButton_Click(object sender, RoutedEventArgs e)
-        {
-            /*NavigationService.Navigate(new MyResumesPage());*/
-        }
-
-        private void ResponsesButton_Click(object sender, RoutedEventArgs e)
-        {
-            /*NavigationService.Navigate(new ResponsesPage());*/
-        }
-
-        private void FavoritesButton_Click(object sender, RoutedEventArgs e)
-        {
-            /*NavigationService.Navigate(new FavoritesPage());*/
-        }
-
-        private void NotificationsButton_Click(object sender, RoutedEventArgs e)
-        {
-            /*NavigationService.Navigate(new NotificationsPage());*/
-        }
-
-        private void ProfileButton_Click(object sender, RoutedEventArgs e)
-        {
-            /*NavigationService.Navigate(new ProfilePage());*/
-        }
-
-        private void VacanciesButton_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
+        // Остальные методы оставляем без изменений
+        private void VacanciesButton_Click(object sender, RoutedEventArgs e) { }
+        private void MyResumesButton_Click(object sender, RoutedEventArgs e) { }
+        private void ResponsesButton_Click(object sender, RoutedEventArgs e) { }
+        private void FavoritesButton_Click(object sender, RoutedEventArgs e) { }
+        private void NotificationsButton_Click(object sender, RoutedEventArgs e) { }
+        private void ProfileButton_Click(object sender, RoutedEventArgs e) { }
+        private void VacanciesButton_Click_1(object sender, RoutedEventArgs e) { }
     }
 }

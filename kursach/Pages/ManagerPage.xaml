@@ -5,10 +5,384 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:kursach.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="ManagerPage">
+      d:DesignHeight="830" d:DesignWidth="1200"
+      Title="Страница работодателя"
+      Background="#FF4f4843">
+
+    <Page.Resources>
+        <!-- Стиль для TextBox -->
+        <Style x:Key="CompactTextBox" TargetType="TextBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="6"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="3">
+                            <ScrollViewer x:Name="PART_ContentHost" Padding="{TemplateBinding Padding}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Стиль для ComboBox -->
+        <Style x:Key="CompactComboBox" TargetType="ComboBox">
+            <Setter Property="Background" Value="#FFe6e3e1"/>
+            <Setter Property="BorderBrush" Value="#FFe6e3e1"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="6"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Border x:Name="border" 
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="3"/>
+                            <ContentPresenter HorizontalAlignment="Left" 
+                                              VerticalAlignment="Center"
+                                              Margin="{TemplateBinding Padding}"/>
+                            <Path x:Name="arrow"
+                                  Fill="Black"
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Center"
+                                  Margin="0,0,6,0"
+                                  Data="M0,0 L4,4 8,0 Z"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Стили для кнопок -->
+        <Style x:Key="MenuButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#FFe6e3e1"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="#0078D7"/>
+                    <Setter Property="Background" Value="#E5F1FB"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="#0078D7"/>
+                    <Setter Property="BorderBrush" Value="#0078D7"/>
+                    <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Стиль для выделения карточки при наведении -->
+        <Style x:Key="HoverResumeItemStyle" TargetType="Border">
+            <Setter Property="Background" Value="#FF9e948d"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="BorderBrush" Value="#FF4f4843"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Setter Property="Padding" Value="15"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FFb8b0a9"/>
+                    <Setter Property="BorderBrush" Value="#0078D7"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="IconButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="#FF9e948d"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="16">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                            Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#F0F0F0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Стиль для TextBox с анимированным плейсхолдером -->
+        <Style x:Key="SearchTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="#FFe6e3e1"/>
+            <Setter Property="BorderBrush" Value="#FFe6e3e1"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="6"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="3">
+                                <ScrollViewer x:Name="PART_ContentHost" Padding="{TemplateBinding Padding}"/>
+                            </Border>
+
+                            <!-- Анимированный плейсхолдер -->
+                            <TextBlock x:Name="placeholderText" 
+                                       Text="Поиск резюме..."
+                                       Foreground="#FF9e948d"
+                                       Margin="10,0,0,0"
+                                       VerticalAlignment="Center"
+                                       Visibility="Visible">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource AncestorType=TextBox}}" Value="">
+                                                <DataTrigger.EnterActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                             From="0" To="1" Duration="0:0:0.3"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </DataTrigger.EnterActions>
+                                                <DataTrigger.ExitActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                             From="1" To="0" Duration="0:0:0.3"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </DataTrigger.ExitActions>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource AncestorType=TextBox}}" Value="{x:Null}">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Стиль для карточек резюме -->
+        <Style x:Key="ResumeItemStyle" TargetType="ListViewItem">
+            <Setter Property="Background" Value="#FFe6e3e1"/>
+            <Setter Property="BorderBrush" Value="#FFe6e3e1"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <ContentPresenter/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Верхнее меню -->
+        <Border Grid.Row="0" Background="#FF9e948d" Padding="10" BorderBrush="#FF9e948d" BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Левая часть меню -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Button x:Name="ResumesButton" Content="Резюме" Style="{StaticResource MenuButtonStyle}" Background="#FF9e948d" Foreground="Black"/>
+                    <Button x:Name="MyVacanciesButton" Content="Мои вакансии" Style="{StaticResource MenuButtonStyle}" Margin="10,0,0,0" Background="#FF4f4843"/>
+                    <Button x:Name="ResponsesButton" Content="Отклики" Style="{StaticResource MenuButtonStyle}" Margin="10,0,0,0" Background="#FF4f4843"/>
+                    <Button x:Name="InterviewsButton" Content="Собеседования" Style="{StaticResource MenuButtonStyle}" Margin="10,0,0,0" Background="#FF4f4843"/>
+                </StackPanel>
+
+                <!-- Правая часть меню -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="FavoritesButton" Content="❤" Style="{StaticResource IconButtonStyle}" ToolTip="Избранное" BorderBrush="#FF4f4843"/>
+                    <Button x:Name="NotificationsButton" Content="🔔" Style="{StaticResource IconButtonStyle}" Margin="10,0,0,0" ToolTip="Уведомления" BorderBrush="#FF4f4843"/>
+                    <Button x:Name="ProfileButton" Content="👤" Style="{StaticResource IconButtonStyle}" Margin="10,0,0,0" ToolTip="Профиль" BorderBrush="#FF4f4843"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Основное содержимое -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Левое меню (фильтры) -->
+            <Border Grid.Column="0" Background="#FF9e948d" Margin="0,0,1,0" BorderBrush="#FF9e948d" BorderThickness="0,0,1,0">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Поиск и фильтры" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
+
+                    <!-- Обновленный TextBox поиска -->
+                    <TextBox x:Name="SearchBox" 
+                     Style="{StaticResource SearchTextBoxStyle}"
+                     Margin="0,0,0,15"/>
+
+                    <!-- Фильтр по городу -->
+                    <Expander Header="Город" Margin="0,0,0,10" IsExpanded="True" >
+                        <ComboBox x:Name="CityFilterComboBox" Style="{StaticResource CompactComboBox}" Margin="0,10,0,0"
+                                  DisplayMemberPath="Name"/>
+                    </Expander>
+
+                    <!-- Фильтр по типу занятости -->
+                    <Expander Header="Тип занятости" Margin="0,0,0,10" IsExpanded="True">
+                        <StackPanel>
+                            <CheckBox x:Name="FullTimeCheckBox" Content="Полная занятость" Margin="0,5,0,5"/>
+                            <CheckBox x:Name="PartTimeCheckBox" Content="Частичная занятость" Margin="0,0,0,5"/>
+                            <CheckBox x:Name="RemoteCheckBox" Content="Удаленная работа" Margin="0,0,0,5"/>
+                            <CheckBox x:Name="ProjectCheckBox" Content="Проектная работа"/>
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Фильтр по зарплате -->
+                    <Expander Header="Зарплата" Margin="0,0,0,10" IsExpanded="True">
+                        <StackPanel Margin="0,10,0,0">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                <TextBlock Text="От:" VerticalAlignment="Center" Width="30"/>
+                                <TextBox x:Name="SalaryFromTextBox" Width="80" Style="{StaticResource CompactTextBox}"/>
+                                <TextBlock Text="руб." VerticalAlignment="Center" Margin="5,0,0,0" Foreground="Black"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,5,0,10">
+                                <TextBlock Text="До:" VerticalAlignment="Center" Width="30"/>
+                                <TextBox x:Name="SalaryToTextBox" Width="80" Style="{StaticResource CompactTextBox}"/>
+                                <TextBlock Text="руб." VerticalAlignment="Center" Margin="5,0,0,0" Foreground="Black"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Фильтр по образованию -->
+                    <Expander Header="Образование" Margin="0,0,0,10" IsExpanded="True">
+                        <ComboBox x:Name="EducationFilterComboBox" Style="{StaticResource CompactComboBox}" Margin="0,10,0,0"
+                                  DisplayMemberPath="Name"/>
+                    </Expander>
+
+                    <!-- Фильтр по опыту работы -->
+                    <Expander Header="Опыт работы" Margin="0,0,0,10" IsExpanded="True">
+                        <StackPanel Margin="0,10,0,0">
+                            <RadioButton x:Name="NoExperience" Content="Без опыта" GroupName="Experience" Margin="0,0,0,5"/>
+                            <RadioButton x:Name="JuniorExperience" Content="1-3 года" GroupName="Experience" Margin="0,0,0,5"/>
+                            <RadioButton x:Name="MiddleExperience" Content="3-5 лет" GroupName="Experience" Margin="0,0,0,5"/>
+                            <RadioButton x:Name="SeniorExperience" Content="5+ лет" GroupName="Experience"/>
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Сортировка -->
+                    <Expander Header="Сортировка" Margin="0,0,0,10" IsExpanded="True">
+                        <StackPanel Margin="0,10,0,0">
+                            <RadioButton x:Name="SortByDate" Content="По дате" GroupName="Sort" Margin="0,0,0,5"/>
+                            <RadioButton x:Name="SortBySalary" Content="По зарплате" GroupName="Sort" Margin="0,0,0,5"/>
+                            <RadioButton x:Name="SortByRelevance" Content="По релевантности" GroupName="Sort"/>
+                        </StackPanel>
+                    </Expander>
+
+                    <Button x:Name="ResetFiltersButton" Content="Сбросить фильтры" 
+                            Margin="0,20,0,0" Padding="10,5" HorizontalAlignment="Stretch"
+                            Background="#FF4f4843" BorderBrush="#FF4f4843" BorderThickness="1"
+                            Foreground="#FFe6e3e1" FontSize="13"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Список резюме -->
+            <Grid Grid.Column="1" Background="#FF4f4843">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Резюме соискателей" FontSize="18" FontWeight="Bold" Margin="15,10" Foreground="#FFe6e3e1"/>
+
+                <ListView Grid.Row="1" x:Name="ResumesListView" Margin="10,0,10,10" 
+                          ItemContainerStyle="{StaticResource ResumeItemStyle}" Background="#FF4f4843" BorderBrush="#FF4f4843" d:ItemsSource="{d:SampleData ItemCount=5}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource HoverResumeItemStyle}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Grid.Column="0" Width="50" Height="50" Background="#FFe6e3e1" 
+                        CornerRadius="4" Margin="0,0,15,0"/>
+
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Text="{Binding Position}" FontSize="16" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Name}" Margin="0,5,0,0" Foreground="#FF4f4843"/>
+                                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                            <TextBlock Text="{Binding Salary}" FontWeight="SemiBold"/>
+                                            <TextBlock Text=" • " Foreground="#FF9e948d"/>
+                                            <TextBlock Text="{Binding City}"/>
+                                            <TextBlock Text=" • " Foreground="#FF9e948d"/>
+                                            <TextBlock Text="{Binding EmploymentType}"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                            <TextBlock Text="{Binding Education}"/>
+                                            <TextBlock Text=" • " Foreground="#FF9e948d"/>
+                                            <TextBlock Text="{Binding Experience}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Right">
+                                        <Button x:Name="FavoriteButton" Content="❤" FontSize="10" Padding="8" 
+                        HorizontalAlignment="Right" VerticalAlignment="Top"
+                        Style="{StaticResource IconButtonStyle}"/>
+                                        <Button x:Name="RespondButton" Content="Отклик" FontSize="10" Padding="8" 
+                        HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,0,0"
+                        Style="{StaticResource IconButtonStyle}" Background="#0078D7" Foreground="White"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Grid>
     </Grid>
 </Page>

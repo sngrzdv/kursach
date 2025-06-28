@@ -1,0 +1,261 @@
+﻿<Page x:Class="kursach.Pages.ResumeDetailsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:kursach.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="850" d:DesignWidth="1200"
+      Title="Детали вакансии"
+      Background="#FF4f4843">
+
+    <Page.Resources>
+        <!-- Стиль для кнопки "Назад" -->
+        <Style x:Key="IconButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="#FF9e948d"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="16">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                            Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#F0F0F0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Стиль для кнопки действий -->
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#FF9e948d"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FFb8b0a9"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Стиль для секций -->
+        <Style x:Key="SectionStyle" TargetType="Border">
+            <Setter Property="Background" Value="#FF9e948d"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="BorderBrush" Value="#FF4f4843"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="15"/>
+            <Setter Property="Margin" Value="0,5,0,10"/>
+        </Style>
+
+        <!-- Стиль для заголовков секций -->
+        <Style x:Key="SectionHeaderStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#FFe6e3e1"/>
+            <Setter Property="Margin" Value="0,5,0,5"/>
+        </Style>
+
+        <!-- Стиль для основного текста -->
+        <Style x:Key="ContentTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Margin" Value="0,5,0,5"/>
+        </Style>
+
+        <!-- Стиль для меток информации -->
+        <Style x:Key="InfoLabelStyle" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0,0,5,0"/>
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Шапка с кнопкой назад -->
+        <Border Grid.Row="0" Background="#FF9e948d" Padding="10" BorderBrush="#FF9e948d" BorderThickness="0,0,0,1">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="BackButton" Content="←" Style="{StaticResource IconButtonStyle}" 
+                        FontSize="16" Click="BackButton_Click" Margin="0,0,15,0"/>
+                <TextBlock Text="Детали резюме" FontSize="20" FontWeight="Bold" 
+                           VerticalAlignment="Center" Foreground="Black"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Основное содержимое -->
+        <ScrollViewer Grid.Row="1" Padding="20">
+            <StackPanel>
+                <!-- Основная информация -->
+                <Border Style="{StaticResource SectionStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Фото -->
+                        <Border Grid.Column="0" Width="100" Height="100" Background="#FFe6e3e1" 
+                                CornerRadius="4" Margin="0,0,20,0">
+                            <Image x:Name="UserPhoto" Stretch="UniformToFill"/>
+                        </Border>
+
+                        <!-- Информация о соискателе -->
+                        <StackPanel Grid.Column="1">
+                            <TextBlock x:Name="ResumeTitle" FontSize="22" FontWeight="Bold" 
+                                       Foreground="Black" TextWrapping="Wrap"/>
+                            <TextBlock x:Name="UserName" FontSize="18" Foreground="#FF4f4843"
+                                       Margin="0,5,0,10" TextWrapping="Wrap"/>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,5">
+                                <TextBlock x:Name="SalaryText" FontWeight="SemiBold" Foreground="Black"/>
+                                <TextBlock Text=" • " Foreground="#FF4f4843" Margin="5,0"/>
+                                <TextBlock x:Name="CityText" Foreground="Black"/>
+                                <TextBlock Text=" • " Foreground="#FF4f4843" Margin="5,0"/>
+                                <TextBlock x:Name="EmploymentTypeText" Foreground="Black"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,5">
+                                <TextBlock x:Name="EducationText" Foreground="Black"/>
+                                <TextBlock Text=" • " Foreground="#FF4f4843" Margin="5,0"/>
+                                <TextBlock x:Name="ExperienceText" Foreground="Black"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- О себе -->
+                <TextBlock Text="О себе" Style="{StaticResource SectionHeaderStyle}"/>
+                <Border Style="{StaticResource SectionStyle}">
+                    <TextBlock x:Name="AboutMeText" Style="{StaticResource ContentTextStyle}"/>
+                </Border>
+
+                <!-- Навыки -->
+                <TextBlock Text="Навыки" Style="{StaticResource SectionHeaderStyle}"/>
+                <Border Style="{StaticResource SectionStyle}">
+                    <ItemsControl x:Name="SkillsItemsControl">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="#FFe6e3e1" CornerRadius="12" Padding="8,4" Margin="0,0,8,8">
+                                    <TextBlock Text="{Binding Name}" Foreground="Black"/>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
+
+                <!-- Образование -->
+                <TextBlock Text="Образование" Style="{StaticResource SectionHeaderStyle}"/>
+                <Border Style="{StaticResource SectionStyle}">
+                    <ItemsControl x:Name="EducationItemsControl">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,0,0,10">
+                                    <TextBlock Text="{Binding Institution}" FontWeight="Bold" Foreground="Black"/>
+                                    <TextBlock Text="{Binding Specialization}" Foreground="Black"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding EducationLevelName}" Foreground="Black"/>
+                                        <TextBlock Text=", " Foreground="Black"/>
+                                        <TextBlock Text="{Binding YearCompleted}" Foreground="Black"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
+
+                <!-- Опыт работы -->
+                <TextBlock Text="Опыт работы" Style="{StaticResource SectionHeaderStyle}"/>
+                <Border Style="{StaticResource SectionStyle}">
+                    <ItemsControl x:Name="ExperienceItemsControl">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,0,0,10">
+                                    <TextBlock Text="{Binding CompanyName}" FontWeight="Bold" Foreground="Black"/>
+                                    <TextBlock Text="{Binding Position}" Foreground="Black"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding StartDate, StringFormat='{}{0:yyyy.MM}'}" Foreground="Black"/>
+                                        <TextBlock Text=" - " Foreground="Black"/>
+                                        <TextBlock Text="{Binding EndDate, StringFormat='{}{0:yyyy.MM}'}" Foreground="Black"/>
+                                        <TextBlock Text=" (текущее место работы)" Foreground="Black">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsCurrent}" Value="True">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Foreground="Black" Margin="0,5,0,0"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
+
+                <!-- Контактная информация -->
+                <TextBlock Text="Контактная информация" Style="{StaticResource SectionHeaderStyle}"/>
+                <Border Style="{StaticResource SectionStyle}">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                            <TextBlock Text="Email:" Style="{StaticResource InfoLabelStyle}"/>
+                            <TextBlock x:Name="EmailText" Style="{StaticResource ContentTextStyle}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Телефон:" Style="{StaticResource InfoLabelStyle}"/>
+                            <TextBlock x:Name="PhoneText" Style="{StaticResource ContentTextStyle}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Кнопки действий -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,25">
+                    <Button x:Name="RespondButton" Content="Отправить отклик" 
+                            Style="{StaticResource PrimaryButtonStyle}" 
+                            Padding="20,10" FontSize="16" Margin="0,0,20,0"
+                            Click="RespondButton_Click"/>
+                    <Button x:Name="FavoriteButton" Content="Добавить в избранное" 
+                            Style="{StaticResource PrimaryButtonStyle}" 
+                            Padding="20,10" FontSize="16"
+                            Click="FavoriteButton_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

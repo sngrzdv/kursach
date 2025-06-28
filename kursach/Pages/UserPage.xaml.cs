@@ -213,5 +213,10 @@ namespace kursach.Pages
         private void NotificationsButton_Click(object sender, RoutedEventArgs e) { }
         private void ProfileButton_Click(object sender, RoutedEventArgs e) { }
         private void VacanciesButton_Click_1(object sender, RoutedEventArgs e) { }
+
+        private void ProfileButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new UserAccount());
+        }
     }
 }

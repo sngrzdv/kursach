@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using kursach.Windows;
 
 namespace kursach.Pages
 {
@@ -206,15 +207,55 @@ namespace kursach.Pages
         }
 
         // Остальные методы оставляем без изменений
-        private void VacanciesButton_Click(object sender, RoutedEventArgs e) { }
-        private void MyResumesButton_Click(object sender, RoutedEventArgs e) { }
-        private void ResponsesButton_Click(object sender, RoutedEventArgs e) { }
-        private void FavoritesButton_Click(object sender, RoutedEventArgs e) { }
-        private void NotificationsButton_Click(object sender, RoutedEventArgs e) { }
-        private void ProfileButton_Click(object sender, RoutedEventArgs e) { }
-        private void VacanciesButton_Click_1(object sender, RoutedEventArgs e) { }
+        private void VacanciesButton_Click(object sender, RoutedEventArgs e) 
+        {
+            // Уже находимся на странице вакансий, просто обновляем данные
+            ResetFilters();
+            UpdateVacanciesList();
 
-        private void ProfileButton_Click_1(object sender, RoutedEventArgs e)
+            // Обновляем стили кнопок
+            VacanciesButton.Background = Brushes.White;
+            VacanciesButton.Foreground = Brushes.Black;
+            MyResumesButton.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF4f4843"));
+            MyResumesButton.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFe6e3e1"));
+            ResponsesButton.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF4f4843"));
+            ResponsesButton.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFe6e3e1"));
+        }
+        private void MyResumesButton_Click(object sender, RoutedEventArgs e) 
+        {
+            NavigationService.Navigate(new MyResumesPage());
+
+            // Обновляем стили кнопок
+            MyResumesButton.Background = Brushes.White;
+            MyResumesButton.Foreground = Brushes.Black;
+            VacanciesButton.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF4f4843"));
+            VacanciesButton.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFe6e3e1"));
+            ResponsesButton.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF4f4843"));
+            ResponsesButton.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFe6e3e1"));
+        }
+        private void ResponsesButton_Click(object sender, RoutedEventArgs e) 
+        {
+            NavigationService.Navigate(new ResponsesPage());
+
+            // Обновляем стили кнопок
+            ResponsesButton.Background = Brushes.White;
+            ResponsesButton.Foreground = Brushes.Black;
+            VacanciesButton.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF4f4843"));
+            VacanciesButton.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFe6e3e1"));
+            MyResumesButton.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF4f4843"));
+            MyResumesButton.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFe6e3e1"));
+        }
+        private void FavoritesButton_Click(object sender, RoutedEventArgs e) 
+        {
+            NavigationService.Navigate(new FavoritesPage());
+        }
+        private void NotificationsButton_Click(object sender, RoutedEventArgs e) 
+        {
+            var window = new NotificationWindow();
+            window.Owner = Window.GetWindow(this);
+            window.ShowDialog();
+        }
+        private void ProfileButton_Click(object sender, RoutedEventArgs e) 
         {
             NavigationService.Navigate(new UserAccount());
         }

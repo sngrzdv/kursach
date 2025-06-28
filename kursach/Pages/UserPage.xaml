@@ -232,16 +232,16 @@
 
                 <!-- Левая часть меню -->
                 <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
-                    <Button x:Name="VacanciesButton" Content="Вакансии" Style="{StaticResource MenuButtonStyle}"  Background="#FF9e948d" Foreground="Black" Click="VacanciesButton_Click_1"/>
-                    <Button x:Name="MyResumesButton" Content="Мои резюме" Style="{StaticResource MenuButtonStyle}" Margin="10,0,0,0" Background="#FF4f4843"/>
-                    <Button x:Name="ResponsesButton" Content="Отклики" Style="{StaticResource MenuButtonStyle}" Margin="10,0,0,0" Background="#FF4f4843"/>
+                    <Button x:Name="VacanciesButton" Content="Вакансии" Style="{StaticResource MenuButtonStyle}"  Background="#FF9e948d" Foreground="Black" Click="VacanciesButton_Click"/>
+                    <Button x:Name="MyResumesButton" Content="Мои резюме" Style="{StaticResource MenuButtonStyle}" Margin="10,0,0,0" Background="#FF4f4843" Click="MyResumesButton_Click"/>
+                    <Button x:Name="ResponsesButton" Content="Отклики" Style="{StaticResource MenuButtonStyle}" Margin="10,0,0,0" Background="#FF4f4843" Click="NotificationsButton_Click"/>
                 </StackPanel>
 
                 <!-- Правая часть меню -->
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button x:Name="FavoritesButton" Content="❤" Style="{StaticResource IconButtonStyle}" ToolTip="Избранное" BorderBrush="#FF4f4843"/>
-                    <Button x:Name="NotificationsButton" Content="🔔" Style="{StaticResource IconButtonStyle}" Margin="10,0,0,0" ToolTip="Уведомления" BorderBrush="#FF4f4843"/>
-                    <Button x:Name="ProfileButton" Content="👤" Style="{StaticResource IconButtonStyle}" Margin="10,0,0,0" ToolTip="Профиль" BorderBrush="#FF4f4843" Click="ProfileButton_Click_1"/>
+                    <Button x:Name="FavoritesButton" Content="❤" Style="{StaticResource IconButtonStyle}" ToolTip="Избранное" BorderBrush="#FF4f4843" Click="FavoritesButton_Click"/>
+                    <Button x:Name="NotificationsButton" Content="🔔" Style="{StaticResource IconButtonStyle}" Margin="10,0,0,0" ToolTip="Уведомления" BorderBrush="#FF4f4843" Click="NotificationsButton_Click"/>
+                    <Button x:Name="ProfileButton" Content="👤" Style="{StaticResource IconButtonStyle}" Margin="10,0,0,0" ToolTip="Профиль" BorderBrush="#FF4f4843" Click="ProfileButton_Click"/>
                 </StackPanel>
             </Grid>
         </Border>

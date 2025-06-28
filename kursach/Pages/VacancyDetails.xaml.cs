@@ -64,6 +64,37 @@ namespace kursach.Pages
                 ExperienceText.Text = $"Требуемый опыт: {vacancy.ExperienceRequired ?? 0} лет";
                 CreatedDateText.Text = $"Дата публикации: {vacancy.CreatedDate:dd.MM.yyyy}";
 
+                // Проверяем состояние кнопок
+                if (CurrentUser.IsAuthenticated)
+                {
+                    using (var db = new vacancyEntities())
+                    {
+                        // Проверка отклика
+                        var resume = db.Resumes.FirstOrDefault(r => r.UserId == CurrentUser.Id);
+                        if (resume != null)
+                        {
+                            var hasResponse = db.VacancyResponses
+                                .Any(r => r.ResumeId == resume.Id && r.VacancyId == _vacancyId);
+
+                            if (hasResponse)
+                            {
+                                RespondButton.Content = "Отклик отправлен";
+                                RespondButton.IsEnabled = false;
+                            }
+                        }
+
+                        // Проверка избранного
+                        var isFavorite = db.FavoriteVacancies
+                            .Any(f => f.UserId == CurrentUser.Id && f.VacancyId == _vacancyId);
+
+                        if (isFavorite)
+                        {
+                            FavoriteButton.Content = "В избранном";
+                            FavoriteButton.IsEnabled = false;
+                        }
+                    }
+                }
+
                 // Увеличиваем счетчик просмотров
                 vacancy.ViewsCount++;
                 _db.SaveChanges();
@@ -101,21 +132,102 @@ namespace kursach.Pages
 
                 using (var db = new vacancyEntities())
                 {
-                    var hasResume = db.Resumes.Any(r => r.UserId == CurrentUser.Id);
-                    if (!hasResume)
+                    // Получаем резюме пользователя
+                    var resume = db.Resumes.FirstOrDefault(r => r.UserId == CurrentUser.Id);
+
+                    if (resume == null)
                     {
                         MessageBox.Show("Для отклика на вакансию необходимо создать резюме",
                             "Требуется резюме", MessageBoxButton.OK, MessageBoxImage.Warning);
                         return;
                     }
-                }
 
-                /*NavigationService.Navigate(new MyResumePage(_vacancyId));*/
+                    // Проверяем, есть ли уже отклик на эту вакансию
+                    var existingResponse = db.VacancyResponses
+                        .FirstOrDefault(r => r.ResumeId == resume.Id && r.VacancyId == _vacancyId);
+
+                    if (existingResponse != null)
+                    {
+                        MessageBox.Show("Вы уже откликались на эту вакансию",
+                            "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                        return;
+                    }
+
+                    // Создаем отклик
+                    var response = new VacancyResponses
+                    {
+                        VacancyId = _vacancyId,
+                        ResumeId = resume.Id,
+                        ResponseDate = DateTime.Now,
+                        StatusId = 1, // Предполагаем, что 1 - это "Отправлен"
+                        Message = "Заинтересовала вакансия"
+                    };
+
+                    db.VacancyResponses.Add(response);
+                    db.SaveChanges();
+
+                    MessageBox.Show("Ваш отклик успешно отправлен!",
+                        "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    // Обновляем состояние кнопки
+                    RespondButton.Content = "Отклик отправлен";
+                    RespondButton.IsEnabled = false;
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при отклике: {ex.Message}", "Ошибка",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ошибка при отклике: {ex.Message}",
+                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void FavoriteButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (!CurrentUser.IsAuthenticated)
+                {
+                    MessageBox.Show("Для добавления вакансии в избранное необходимо авторизоваться",
+                        "Требуется авторизация", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                using (var db = new vacancyEntities())
+                {
+                    // Проверяем, есть ли уже эта вакансия в избранном
+                    var existingFavorite = db.FavoriteVacancies
+                        .FirstOrDefault(f => f.UserId == CurrentUser.Id && f.VacancyId == _vacancyId);
+
+                    if (existingFavorite != null)
+                    {
+                        MessageBox.Show("Эта вакансия уже в вашем избранном",
+                            "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                        return;
+                    }
+
+                    // Добавляем в избранное
+                    var favorite = new FavoriteVacancies
+                    {
+                        UserId = CurrentUser.Id,
+                        VacancyId = _vacancyId,
+                        AddedDate = DateTime.Now
+                    };
+
+                    db.FavoriteVacancies.Add(favorite);
+                    db.SaveChanges();
+
+                    MessageBox.Show("Вакансия добавлена в избранное",
+                        "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    // Обновляем состояние кнопки
+                    FavoriteButton.Content = "В избранном";
+                    FavoriteButton.IsEnabled = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при добавлении в избранное: {ex.Message}",
+                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

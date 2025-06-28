@@ -1,0 +1,58 @@
+﻿<Page x:Class="kursach.Pages.EditResumePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:kursach.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="1200"
+      Title="Редактирование резюме"
+      Background="#FF4f4843">
+
+    <Grid>
+        <ScrollViewer>
+            <StackPanel Margin="20" MaxWidth="800">
+                <TextBlock Text="{Binding Title, FallbackValue='Новое резюме'}" 
+                           FontSize="20" FontWeight="Bold" Foreground="#FFe6e3e1" Margin="0,0,0,20"/>
+
+                <!-- Основная информация -->
+                <Border Background="#FF9e948d" CornerRadius="4" Padding="15" Margin="0,0,0,15">
+                    <StackPanel>
+                        <TextBlock Text="Основная информация" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                        <TextBlock Text="Название резюме*" Margin="0,5,0,0"/>
+                        <TextBox x:Name="TitleTextBox" Margin="0,5,0,10"/>
+
+                        <TextBlock Text="Желаемая зарплата (руб.)"/>
+                        <TextBox x:Name="SalaryTextBox" Margin="0,5,0,10" PreviewTextInput="NumericTextBox_PreviewTextInput"/>
+
+                        <TextBlock Text="Город"/>
+                        <ComboBox x:Name="CityComboBox" DisplayMemberPath="Name" Margin="0,5,0,10"/>
+
+                        <TextBlock Text="Тип занятости"/>
+                        <ComboBox x:Name="EmploymentTypeComboBox" DisplayMemberPath="Name" Margin="0,5,0,10"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- О себе -->
+                <Border Background="#FF9e948d" CornerRadius="4" Padding="15" Margin="0,0,0,15">
+                    <StackPanel>
+                        <TextBlock Text="О себе" FontWeight="Bold" Margin="0,0,0,10"/>
+                        <TextBox x:Name="AboutMeTextBox" AcceptsReturn="True" TextWrapping="Wrap" 
+                                 MinHeight="100" VerticalScrollBarVisibility="Auto"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Кнопки действий -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="SaveButton" Content="Сохранить" Padding="15,8" 
+                            Background="#FF4f4843" Foreground="White" FontWeight="SemiBold"
+                            Click="SaveButton_Click"/>
+                    <Button x:Name="CancelButton" Content="Отмена" Padding="15,8" Margin="10,0,0,0"
+                            Background="Transparent" Foreground="#FFe6e3e1" BorderBrush="#FFe6e3e1" BorderThickness="1"
+                            Click="CancelButton_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

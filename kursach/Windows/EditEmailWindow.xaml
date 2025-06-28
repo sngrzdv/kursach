@@ -5,8 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:kursach.Windows"
         mc:Ignorable="d"
-        Title="EditEmailWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Изменение email" 
+        Height="300" 
+        Width="400"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="15">
+        <StackPanel>
+            <TextBlock Text="Изменение email" 
+                       FontSize="18" 
+                       FontWeight="SemiBold"
+                       Margin="0,0,0,20"/>
+
+            <Label Content="Текущий email"/>
+            <TextBlock x:Name="CurrentEmailText" Margin="0,0,0,10"/>
+
+            <Label Content="Новый email"/>
+            <TextBox x:Name="NewEmailTextBox" Margin="0,0,0,10"/>
+
+            <Label Content="Подтвердите пароль"/>
+            <PasswordBox x:Name="PasswordBox" Margin="0,0,0,20"/>
+
+            <Button Content="Сохранить" 
+                    Height="40"
+                    Background="#FF4f4843"
+                    Foreground="White"
+                    FontWeight="SemiBold"
+                    Click="SaveButton_Click"/>
+        </StackPanel>
     </Grid>
 </Window>

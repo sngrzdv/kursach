@@ -1,0 +1,55 @@
+﻿<Window x:Class="kursach.Windows.NotificationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:kursach.Windows"
+        mc:Ignorable="d"
+        Title="Уведомления" 
+        Height="600" 
+        Width="800"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#FF4f4843" Padding="15">
+            <TextBlock Text="Мои уведомления" 
+                       Foreground="White"
+                       FontSize="18"
+                       FontWeight="SemiBold"/>
+        </Border>
+
+        <!-- Notifications List -->
+        <ScrollViewer Grid.Row="1">
+            <ItemsControl x:Name="NotificationsList" Padding="15">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,0,0,10" 
+                                Padding="15"
+                                Background="White"
+                                CornerRadius="5"
+                                BorderThickness="1"
+                                BorderBrush="#FFEEEEEE">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Title}" 
+                                           FontWeight="SemiBold"
+                                           FontSize="14"/>
+                                <TextBlock Text="{Binding Message}" 
+                                           Margin="0,5,0,0"
+                                           TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding CreatedAt, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}" 
+                                           Margin="0,5,0,0"
+                                           Foreground="#FF888888"
+                                           FontSize="12"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Window>

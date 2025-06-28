@@ -84,12 +84,16 @@ namespace kursach.Pages
 
         private void NotificationsButton_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Notification());
+            var window = new NotificationWindow();
+            window.Owner = Window.GetWindow(this);
+            window.ShowDialog();
+            // Обновляем счетчик уведомлений после закрытия окна
+            LoadUserData();
         }
 
         private void EditProfile_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new EditProfilePage(/*_currentUser*/));
+            NavigationService.Navigate(new EditProfilePage(_currentUser));
         }
 
         private void ToggleCredentials_Click(object sender, RoutedEventArgs e)
@@ -109,12 +113,16 @@ namespace kursach.Pages
 
         private void ChangeEmail_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new EditEmailWindow(/*_currentUser*/));
+            var window = new EditEmailWindow(_currentUser);
+            window.Owner = Window.GetWindow(this);
+            window.ShowDialog();
         }
 
         private void ChangePassword_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new EditPasswordWindow(/*_currentUser*/));
+            var window = new EditPasswordWindow(_currentUser);
+            window.Owner = Window.GetWindow(this);
+            window.ShowDialog();
         }
 
         private void BecomeEmployer_Click(object sender, RoutedEventArgs e)

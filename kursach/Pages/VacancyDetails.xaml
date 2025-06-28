@@ -141,9 +141,17 @@
                     </StackPanel>
                 </Border>
 
-                <!-- Кнопка отклика -->
-                <Button x:Name="ApplyButton" Content="Откликнуться" Style="{StaticResource ApplyButtonStyle}" 
-                        HorizontalAlignment="Center" Margin="0,20" Width="200" Click="ApplyButton_Click"/>
+                <!-- Кнопки действий -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,25">
+                    <Button x:Name="RespondButton" Content="Откликнуться"
+                    Style="{StaticResource ApplyButtonStyle}" 
+                    Padding="20,10" FontSize="16" Margin="0,0,20,0"
+                    Click="ApplyButton_Click"/>
+                    <Button x:Name="FavoriteButton" Content="Добавить в избранное" 
+                    Style="{StaticResource ApplyButtonStyle}" 
+                    Padding="20,10" FontSize="16"
+                    Click="FavoriteButton_Click"/>
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

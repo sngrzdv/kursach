@@ -17,9 +17,6 @@ using System.Windows.Shapes;
 
 namespace kursach.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для ManagerPage.xaml
-    /// </summary>
     public partial class ManagerPage : Page
     {
         private readonly vacancyEntities db = new vacancyEntities();

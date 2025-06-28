@@ -5,10 +5,146 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:kursach.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="FavoritesPage">
+      d:DesignHeight="800" d:DesignWidth="1200"
+      Title="Мои избранные"
+      Background="#FF4f4843">
+
+    <Page.Resources>
+        <!-- Стиль для кнопки "Назад" -->
+        <Style x:Key="IconButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="#FF9e948d"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="16">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                            Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#F0F0F0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Стиль для карточек -->
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="#FF9e948d"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="BorderBrush" Value="#FF4f4843"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="15"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
+        </Style>
+
+        <!-- Шаблон для карточки резюме (для работодателей) -->
+        <DataTemplate x:Key="ResumeCardTemplate">
+            <Border Style="{StaticResource CardStyle}" MouseLeftButtonUp="FavoriteItem_MouseLeftButtonUp">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Фото -->
+                    <Border Grid.Column="0" Width="80" Height="80" Background="#FFe6e3e1" 
+                            CornerRadius="4" Margin="0,0,15,0">
+                        <Image Source="{Binding Resumes.PhotoPath}" Stretch="UniformToFill"/>
+                    </Border>
+
+                    <!-- Информация -->
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="{Binding Resumes.Title}" FontSize="16" FontWeight="Bold" 
+                                   Foreground="Black" TextWrapping="Wrap"/>
+                        <TextBlock Text="{Binding Resumes.Users.LastName}" FontSize="14" 
+                                   Foreground="#FF4f4843" Margin="0,5,0,0" TextWrapping="Wrap"/>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,5">
+                            <TextBlock Text="{Binding Resumes.SalaryExpectation, StringFormat='{}{0:N0} руб.'}" 
+                                       FontWeight="SemiBold" Foreground="Black"/>
+                            <TextBlock Text=" • " Foreground="#FF4f4843" Margin="5,0"/>
+                            <TextBlock Text="{Binding Resumes.Cities.Name}" Foreground="Black"/>
+                        </StackPanel>
+
+                        <TextBlock Text="{Binding AddedDate, StringFormat='Добавлено: {0:dd.MM.yyyy}'}" 
+                                   FontSize="12" Foreground="#FF4f4843" Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <!-- Шаблон для карточки вакансии (для соискателей) -->
+        <DataTemplate x:Key="VacancyCardTemplate">
+            <Border Style="{StaticResource CardStyle}" MouseLeftButtonUp="FavoriteItem_MouseLeftButtonUp">
+                <StackPanel>
+                    <TextBlock Text="{Binding Vacancies.Title}" FontSize="16" FontWeight="Bold" 
+                               Foreground="Black" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding Vacancies.Companies.Name}" FontSize="14" 
+                               Foreground="#FF4f4843" Margin="0,5,0,0" TextWrapping="Wrap"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <TextBlock Text="{Binding Vacancies.SalaryFrom, StringFormat='от {0:N0} руб.'}" 
+                                   FontWeight="SemiBold" Foreground="Black"/>
+                        <TextBlock Text=" • " Foreground="#FF4f4843" Margin="5,0"/>
+                        <TextBlock Text="{Binding Vacancies.Cities.Name}" Foreground="Black"/>
+                        <TextBlock Text=" • " Foreground="#FF4f4843" Margin="5,0"/>
+                        <TextBlock Text="{Binding Vacancies.EmploymentTypes.Name}" Foreground="Black"/>
+                    </StackPanel>
+
+                    <TextBlock Text="{Binding AddedDate, StringFormat='Добавлено: {0:dd.MM.yyyy}'}" 
+                               FontSize="12" Foreground="#FF4f4843" Margin="0,5,0,0"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </Page.Resources>
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Шапка с кнопкой назад -->
+        <Border Grid.Row="0" Background="#FF9e948d" Padding="10" BorderBrush="#FF9e948d" BorderThickness="0,0,0,1">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="BackButton" Content="←" Style="{StaticResource IconButtonStyle}" 
+                        FontSize="16" Click="BackButton_Click" Margin="0,0,15,0"/>
+                <TextBlock Text="Мои избранные" FontSize="20" FontWeight="Bold" 
+                           VerticalAlignment="Center" Foreground="Black"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Основное содержимое -->
+        <ScrollViewer Grid.Row="1" Padding="20">
+            <StackPanel>
+                <!-- Заголовок в зависимости от роли -->
+                <TextBlock x:Name="PageTitle" FontSize="18" FontWeight="Bold" 
+                           Foreground="#FFe6e3e1" Margin="0,0,0,20"/>
+
+                <!-- Контейнер для избранного -->
+                <ItemsControl x:Name="FavoritesList"/>
+
+                <!-- Сообщение, если избранного нет -->
+                <TextBlock x:Name="NoFavoritesText" Text="У вас пока нет избранных" 
+                           FontSize="16" Foreground="#FFe6e3e1" TextAlignment="Center"
+                           Visibility="Collapsed"/>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

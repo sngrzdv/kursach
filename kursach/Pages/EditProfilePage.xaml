@@ -6,9 +6,35 @@
       xmlns:local="clr-namespace:kursach.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="EditProfilePage">
+      Title="Редактирование профиля">
 
-    <Grid>
-        
+    <Grid Margin="15">
+        <ScrollViewer>
+            <StackPanel Width="400" Margin="0,0,0,20">
+                <TextBlock Text="Редактирование профиля" 
+                           FontSize="20" 
+                           FontWeight="SemiBold"
+                           Margin="0,0,0,20"/>
+
+                <Label Content="Фамилия"/>
+                <TextBox x:Name="LastNameTextBox" Margin="0,0,0,10"/>
+
+                <Label Content="Имя"/>
+                <TextBox x:Name="FirstNameTextBox" Margin="0,0,0,10"/>
+
+                <Label Content="Отчество"/>
+                <TextBox x:Name="FatherNameTextBox" Margin="0,0,0,10"/>
+
+                <Label Content="Телефон"/>
+                <TextBox x:Name="PhoneTextBox" Margin="0,0,0,20"/>
+
+                <Button Content="Сохранить изменения" 
+                        Height="40"
+                        Background="#FF4f4843"
+                        Foreground="White"
+                        FontWeight="SemiBold"
+                        Click="SaveButton_Click"/>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

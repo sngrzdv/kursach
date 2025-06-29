@@ -132,13 +132,13 @@
                             Foreground="White"
                             BorderBrush="White"
                             Content="Избранное"
-                            Click="FavoritesButton_Click"/>
+                            Click="FavoritesButton_Click" Width="150"/>
                     <Button Style="{StaticResource SecondaryButtonStyle}"
                             Foreground="White"
                             BorderBrush="White"
                             Content="Уведомления"
                             Margin="10,0,0,0"
-                            Click="NotificationsButton_Click"/>
+                            Click="NotificationsButton_Click" Width="150"/>
                 </StackPanel>
             </Grid>
         </Border>
@@ -195,19 +195,19 @@
                         <StackPanel>
                             <TextBlock Text="Учетные данные" Style="{StaticResource SectionHeaderStyle}"/>
 
-                            <Button Content="{Binding CredentialsButtonText}" 
-                                    Style="{StaticResource SecondaryButtonStyle}"
-                                    Margin="0,0,0,15"
-                                    Click="ToggleCredentials_Click"/>
+                            <Button Content="{Binding CredentialsButtonText, RelativeSource={RelativeSource AncestorType=Page}}"
+                                Style="{StaticResource SecondaryButtonStyle}"
+                                Margin="0,0,0,15"
+                                Click="ToggleCredentials_Click"/>
 
                             <StackPanel x:Name="CredentialsPanel" 
                                         Visibility="Collapsed">
-                                <Label Content="Email :"/>
-                                <TextBlock Text= "{Binding User.Email}" Margin="10,0,0,10" FontWeight="SemiBold"/>
-                                <Label Content="Пароль :"/>
-                                <TextBlock Text="{Binding User.Password}" 
-                                    Margin="10,0,0,20"
-                                    FontWeight="SemiBold"/>
+                            <Label Content="Email :"/>
+                            <TextBlock Text= "{Binding User.Email}" Margin="10,0,0,10" FontWeight="SemiBold"/>
+                            <Label Content="Пароль :"/>
+                            <TextBlock Text="{Binding User.Password}" 
+                                Margin="10,0,0,20"
+                                FontWeight="SemiBold"/>
 
                                 <StackPanel Orientation="Horizontal">
                                     <Button Content="Изменить email" 
@@ -241,6 +241,11 @@
                                     Margin="0,20,0,0"
                                     Visibility="{Binding CanBecomeEmployer, Converter={StaticResource BoolToVisibility}}"
                                     Click="BecomeEmployer_Click"/>
+                            <Button Content="Стать соискателем" 
+                                    Style="{StaticResource ActionButtonStyle}"
+                                    Margin="0,10,0,0"
+                                    Visibility="{Binding CanBecomeJobSeeker, Converter={StaticResource BoolToVisibility}}"
+                                    Click="BecomeJobSeeker_Click"/>
                         </StackPanel>
                     </Border>
 
@@ -285,8 +290,16 @@
                             </Grid>
                         </StackPanel>
                     </Border>
+                    <!-- Кнопка выхода -->
+                    <Border Grid.Row="2" Background="#FFF5F5F5" Padding="20" BorderThickness="0,1,0,0" BorderBrush="{StaticResource LightBrush}">
+                        <Button Content="Выход из аккаунта"  
+                            Style="{StaticResource ActionButtonStyle}"
+                            HorizontalAlignment="Center"
+                            Click="LogoutButton_Click"/>
+                    </Border>
                 </StackPanel>
             </Grid>
         </ScrollViewer>
+        
     </Grid>
 </Page>

@@ -14,7 +14,7 @@
             <TextBlock Text="Изменение email" 
                        FontSize="18" 
                        FontWeight="SemiBold"
-                       Margin="0,0,0,20"/>
+                       Margin="0,0,0,10"/>
 
             <Label Content="Текущий email"/>
             <TextBlock x:Name="CurrentEmailText" Margin="0,0,0,10"/>
@@ -23,7 +23,7 @@
             <TextBox x:Name="NewEmailTextBox" Margin="0,0,0,10"/>
 
             <Label Content="Подтвердите пароль"/>
-            <PasswordBox x:Name="PasswordBox" Margin="0,0,0,20"/>
+            <PasswordBox x:Name="PasswordBox" Margin="0,0,0,10"/>
 
             <Button Content="Сохранить" 
                     Height="40"

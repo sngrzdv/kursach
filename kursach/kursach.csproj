@@ -70,8 +70,20 @@
     <Compile Include="Pages\EditResumePage.xaml.cs">
       <DependentUpon>EditResumePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\EditVacancyPage.xaml.cs">
+      <DependentUpon>EditVacancyPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\InterviewsPage.xaml.cs">
+      <DependentUpon>InterviewsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ManagerResponses.xaml.cs">
+      <DependentUpon>ManagerResponses.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\MyResumesPage.xaml.cs">
       <DependentUpon>MyResumesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MyVacanciesPage.xaml.cs">
+      <DependentUpon>MyVacanciesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ResponsesPage.xaml.cs">
       <DependentUpon>ResponsesPage.xaml</DependentUpon>
@@ -87,6 +99,12 @@
     </Compile>
     <Compile Include="Windows\NotificationWindow.xaml.cs">
       <DependentUpon>NotificationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ScheduleInterviewDialog.xaml.cs">
+      <DependentUpon>ScheduleInterviewDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\SelectVacancyDialog.xaml.cs">
+      <DependentUpon>SelectVacancyDialog.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -188,7 +206,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\EditVacancyPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\FavoritesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\InterviewsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -196,7 +222,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\ManagerResponses.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\MyResumesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MyVacanciesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -237,6 +271,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\NotificationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ScheduleInterviewDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\SelectVacancyDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -50,8 +50,14 @@ namespace kursach.Pages
                     .Include(v => v.EmploymentTypes)
                     .Where(v => v.IsActive);
 
-                CityFilterComboBox.ItemsSource = db.Cities.ToList();
+                CityFilterComboBox.ItemsSource = db.Cities
+                    .AsNoTracking()
+                    .Select(c => new { c.Id, c.Name })
+                    .OrderBy(c => c.Name)
+                    .ToList();
+
                 CityFilterComboBox.DisplayMemberPath = "Name";
+                CityFilterComboBox.SelectedValuePath = "Id";
                 CityFilterComboBox.SelectedIndex = -1;
 
                 UpdateVacanciesList();
@@ -124,9 +130,9 @@ namespace kursach.Pages
                         v.Description.ToLower().Contains(searchText));
                 }
 
-                if (CityFilterComboBox.SelectedItem is Cities selectedCity)
+                if (CityFilterComboBox.SelectedValue != null && int.TryParse(CityFilterComboBox.SelectedValue.ToString(), out int cityId))
                 {
-                    filtered = filtered.Where(v => v.CityId == selectedCity.Id);
+                    filtered = filtered.Where(v => v.CityId == cityId);
                 }
 
                 var employmentTypes = new System.Collections.Generic.List<int>();
@@ -206,44 +212,18 @@ namespace kursach.Pages
             }
         }
 
-        // Остальные методы оставляем без изменений
         private void VacanciesButton_Click(object sender, RoutedEventArgs e) 
         {
-            // Уже находимся на странице вакансий, просто обновляем данные
             ResetFilters();
             UpdateVacanciesList();
-
-            // Обновляем стили кнопок
-            VacanciesButton.Background = Brushes.White;
-            VacanciesButton.Foreground = Brushes.Black;
-            MyResumesButton.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF4f4843"));
-            MyResumesButton.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFe6e3e1"));
-            ResponsesButton.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF4f4843"));
-            ResponsesButton.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFe6e3e1"));
         }
         private void MyResumesButton_Click(object sender, RoutedEventArgs e) 
         {
             NavigationService.Navigate(new MyResumesPage());
-
-            // Обновляем стили кнопок
-            MyResumesButton.Background = Brushes.White;
-            MyResumesButton.Foreground = Brushes.Black;
-            VacanciesButton.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF4f4843"));
-            VacanciesButton.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFe6e3e1"));
-            ResponsesButton.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF4f4843"));
-            ResponsesButton.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFe6e3e1"));
         }
         private void ResponsesButton_Click(object sender, RoutedEventArgs e) 
         {
             NavigationService.Navigate(new ResponsesPage());
-
-            // Обновляем стили кнопок
-            ResponsesButton.Background = Brushes.White;
-            ResponsesButton.Foreground = Brushes.Black;
-            VacanciesButton.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF4f4843"));
-            VacanciesButton.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFe6e3e1"));
-            MyResumesButton.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF4f4843"));
-            MyResumesButton.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFe6e3e1"));
         }
         private void FavoritesButton_Click(object sender, RoutedEventArgs e) 
         {

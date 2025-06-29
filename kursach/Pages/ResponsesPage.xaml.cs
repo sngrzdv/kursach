@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using kursach.Windows;
 
 namespace kursach.Pages
 {
@@ -46,6 +47,39 @@ namespace kursach.Pages
             {
                 MessageBox.Show($"Ошибка загрузки откликов: {ex.Message}", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Возврат на предыдущую страницу
+            if (NavigationService.CanGoBack)
+            {
+                NavigationService.GoBack();
+            }
+            else
+            {
+                // Если нет истории навигации, переходим на главную страницу пользователя
+                NavigationService.Navigate(new UserPage());
+            }
+        }
+        private void ResponseItem_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 1)
+            {
+                var border = sender as Border;
+                var response = border.DataContext as VacancyResponses;
+
+                // Проверяем, что статус "Принято" (или другой, по вашему усмотрению)
+                if (response.ResponseStatuses.Name == "Принято")
+                {
+                    var dialog = new ScheduleInterviewDialog(response);
+                    dialog.Owner = Window.GetWindow(this);
+                    dialog.ShowDialog();
+
+                    // Обновляем данные после закрытия диалога (если нужно)
+                    LoadResponses();
+                }
             }
         }
     }

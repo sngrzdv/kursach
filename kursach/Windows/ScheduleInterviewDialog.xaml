@@ -1,0 +1,66 @@
+﻿<Window x:Class="kursach.Windows.ScheduleInterviewDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:kursach.Windows"
+        mc:Ignorable="d"
+        Title="Назначить собеседование" Height="450" Width="400"
+        WindowStartupLocation="CenterOwner">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Отклик -->
+        <TextBlock Grid.Row="0" Text="Отклик:" Margin="0,0,0,5"/>
+        <ComboBox x:Name="ResponseComboBox" Grid.Row="1" Margin="0,0,0,10"/>
+
+        <!-- Дата -->
+        <TextBlock Grid.Row="2" Text="Дата:" Margin="0,0,0,5"/>
+        <DatePicker x:Name="DatePicker" Grid.Row="3" Margin="0,0,0,10"/>
+
+        <!-- Время -->
+        <TextBlock Grid.Row="4" Text="Время (ЧЧ:ММ):" Margin="0,0,0,5"/>
+        <TextBox x:Name="TimeTextBox" Grid.Row="5" Margin="0,0,0,10" 
+                Text="10:00" ToolTip="Введите время в формате ЧЧ:ММ (например, 14:30)"/>
+
+        <!-- Формат -->
+        <TextBlock Grid.Row="6" Text="Формат:" Margin="0,0,0,5"/>
+        <StackPanel Grid.Row="7" Orientation="Horizontal" Margin="0,0,0,10">
+            <RadioButton x:Name="OnlineRadio" Content="Онлайн" Margin="0,0,10,0" Checked="OnlineRadio_Checked"/>
+            <RadioButton x:Name="OfflineRadio" Content="Оффлайн" IsChecked="True" Checked="OfflineRadio_Checked"/>
+        </StackPanel>
+
+        <!-- Онлайн панель -->
+        <StackPanel x:Name="OnlinePanel" Grid.Row="8" Visibility="Collapsed" Margin="0,0,0,10">
+            <TextBlock Text="Ссылка на встречу:" Margin="0,0,0,5"/>
+            <TextBox x:Name="MeetingLinkTextBox" Margin="0,0,0,10"/>
+        </StackPanel>
+
+        <!-- Оффлайн панель -->
+        <StackPanel x:Name="OfflinePanel" Grid.Row="8" Margin="0,0,0,10">
+            <TextBlock Text="Место проведения:" Margin="0,0,0,5"/>
+            <TextBox x:Name="LocationTextBox" Margin="0,0,0,10"/>
+        </StackPanel>
+
+        <!-- Примечания -->
+        <TextBlock Grid.Row="9" Text="Примечания:" Margin="0,0,0,5"/>
+        <TextBox x:Name="NotesTextBox" Grid.Row="10" Margin="0,0,0,10" Height="60" 
+                TextWrapping="Wrap" AcceptsReturn="True"/>
+
+        <!-- Кнопки -->
+        <StackPanel Grid.Row="11" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Отмена" Width="80" Margin="0,0,10,0" Click="CancelButton_Click"/>
+            <Button Content="ОК" Width="80" Click="OkButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

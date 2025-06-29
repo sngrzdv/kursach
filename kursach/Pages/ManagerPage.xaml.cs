@@ -121,34 +121,40 @@ namespace kursach.Pages
         {
             try
             {
-                var filtered = _allResumesQuery;
+                var filtered = db.Resumes
+                    .Include(r => r.Users)
+                    .Include(r => r.Cities)
+                    .Include(r => r.EmploymentTypes)
+                    .Include(r => r.Educations)
+                    .Where(r => r.IsActive);
 
+                // Фильтрация по поиску
                 if (!string.IsNullOrWhiteSpace(SearchBox.Text))
                 {
                     var searchText = SearchBox.Text.ToLower();
                     filtered = filtered.Where(r =>
                         r.Title.ToLower().Contains(searchText) ||
-                        r.Users.FirstName.ToLower().Contains(searchText) ||
                         r.Users.LastName.ToLower().Contains(searchText) ||
+                        r.Users.FirstName.ToLower().Contains(searchText) ||
                         r.AboutMe.ToLower().Contains(searchText));
                 }
 
+                // Фильтрация по городу
                 if (CityFilterComboBox.SelectedItem is Cities selectedCity)
                 {
                     filtered = filtered.Where(r => r.CityId == selectedCity.Id);
                 }
 
+                // Фильтрация по образованию
                 if (EducationFilterComboBox.SelectedItem is Educations selectedEducation)
                 {
                     filtered = filtered.Where(r => r.EducationLevelId == selectedEducation.Id);
                 }
 
-                var employmentTypes = new System.Collections.Generic.List<int>();
-                if (FullTimeCheckBox.IsChecked == true) employmentTypes.Add(1);
-                if (PartTimeCheckBox.IsChecked == true) employmentTypes.Add(2);
-                if (RemoteCheckBox.IsChecked == true) employmentTypes.Add(5);
-                if (ProjectCheckBox.IsChecked == true) employmentTypes.Add(3);
-
+                // Фильтрация по типу занятости
+                var employmentTypes = new List<int>();
+                if (FullTimeCheckBox.IsChecked == true) employmentTypes.Add(1); // ID для "Полная занятость"
+                if (PartTimeCheckBox.IsChecked == true) employmentTypes.Add(2); // ID для "Частичная занятость"
                 if (employmentTypes.Count > 0)
                 {
                     filtered = filtered.Where(r => employmentTypes.Contains(r.EmploymentTypeId ?? 0));
@@ -190,11 +196,6 @@ namespace kursach.Pages
                 {
                     filtered = filtered.OrderByDescending(r => r.CreatedDate);
                 }
-                else
-                {
-                    // Сортировка по релевантности (можно добавить свою логику)
-                    filtered = filtered.OrderByDescending(r => r.ExperienceYears);
-                }
 
                 ResumesListView.ItemsSource = filtered.ToList().Select(r => new
                 {
@@ -205,14 +206,12 @@ namespace kursach.Pages
                     City = r.Cities?.Name ?? "Не указан",
                     EmploymentType = r.EmploymentTypes?.Name ?? "Не указан",
                     Education = r.Educations?.Name ?? "Не указано",
-                    Experience = r.ExperienceYears.HasValue ? $"{r.ExperienceYears} лет опыта" : "Без опыта",
-                    r.CreatedDate
+                    Experience = r.ExperienceYears.HasValue ? $"{r.ExperienceYears} лет" : "Без опыта"
                 }).ToList();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка фильтрации: {ex.Message}", "Ошибка",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ошибка: {ex.Message}");
             }
         }
 
@@ -248,22 +247,22 @@ namespace kursach.Pages
 
         private void ResumesButton_Click(object sender, RoutedEventArgs e)
         {
-            // Уже на этой странице
+            UpdateResumesList();
         }
 
         private void MyVacanciesButton_Click(object sender, RoutedEventArgs e)
         {
-            /*NavigationService.Navigate(new MyVacanciesPage());*/
+            NavigationService.Navigate(new MyVacanciesPage());
         }
 
         private void ResponsesButton_Click(object sender, RoutedEventArgs e)
         {
-            /*NavigationService.Navigate(new EmployerResponses());*/
+            NavigationService.Navigate(new ResponsesPage());
         }
 
         private void InterviewsButton_Click(object sender, RoutedEventArgs e)
         {
-            /*NavigationService.Navigate(new InterviewsPage());*/
+            NavigationService.Navigate(new InterviewsPage(CurrentUser.Id));
         }
 
         private void FavoritesButton_Click(object sender, RoutedEventArgs e)

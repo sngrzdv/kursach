@@ -1,4 +1,4 @@
-﻿<Page x:Class="kursach.Pages.MyResumesPage"
+﻿<Page x:Class="kursach.Pages.ManagerResponses"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,11 +6,11 @@
       xmlns:local="clr-namespace:kursach.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="1200"
-      Title="Мои резюме"
+      Title="Отклики на вакансии"
       Background="#FF4f4843">
 
     <Page.Resources>
-        <Style x:Key="ResumeItemStyle" TargetType="Border">
+        <Style x:Key="ResponseItemStyle" TargetType="Border">
             <Setter Property="Background" Value="#FFe6e3e1"/>
             <Setter Property="CornerRadius" Value="4"/>
             <Setter Property="BorderBrush" Value="#FF4f4843"/>
@@ -46,33 +46,28 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Заголовок -->
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15,10">
             <Button x:Name="BackButton"
-        Content="← Назад"
-        HorizontalAlignment="Left"
-        VerticalAlignment="Top"
-        Margin="0,0,15,0"
-        Padding="15,5"
-        Background="#FF9e948d"
-        Foreground="Black"
-        FontSize="20"
-        FontWeight="SemiBold"
-        Height="40"
-        Click="BackButton_Click">
+                    Content="← Назад"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Margin="0,0,15,0"
+                    Padding="15,5"
+                    Background="#FF9e948d"
+                    Foreground="Black"
+                    FontSize="20"
+                    FontWeight="SemiBold"
+                    Height="40"
+                    Click="BackButton_Click">
             </Button>
-            <TextBlock Text="Мои вакансии" FontSize="25" FontWeight="Bold" Foreground="#FFe6e3e1" VerticalAlignment="Center"/>
-            <Button x:Name="CreateVacancyButton" Content="+ Создать вакансию" Padding="5" Margin="15,0,0,0" 
-        Background="#FF9e948d" Foreground="Black" FontSize="20" FontWeight="SemiBold"
-        Click="CreateResumeButton_Click" Height="40"/>
+            <TextBlock Text="Отклики на вакансии" FontSize="25" FontWeight="Bold" Foreground="#FFe6e3e1" VerticalAlignment="Center"/>
         </StackPanel>
 
-        <!-- Список резюме -->
         <ScrollViewer Grid.Row="1" Margin="15,0,15,15">
-            <ItemsControl x:Name="ResumesItemsControl">
+            <ItemsControl x:Name="ResponsesItemsControl">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Style="{StaticResource ResumeItemStyle}">
+                        <Border Style="{StaticResource ResponseItemStyle}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -80,22 +75,22 @@
                                 </Grid.ColumnDefinitions>
 
                                 <StackPanel Grid.Column="0">
-                                    <TextBlock Text="{Binding Title}" FontSize="18" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Vacancy.Title}" FontSize="18" FontWeight="Bold"/>
                                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                                        <TextBlock Text="{Binding SalaryExpectation, StringFormat={}{0:N0} руб.}" FontWeight="SemiBold"/>
+                                        <TextBlock Text="{Binding User.FullName}" FontWeight="SemiBold"/>
                                         <TextBlock Text=" • " Foreground="#FF9e948d"/>
-                                        <TextBlock Text="{Binding Cities.Name, FallbackValue='Город не указан'}"/>
+                                        <TextBlock Text="{Binding Status.Name}"/>
                                         <TextBlock Text=" • " Foreground="#FF9e948d"/>
-                                        <TextBlock Text="{Binding EmploymentTypes.Name, FallbackValue='Тип занятости не указан'}"/>
+                                        <TextBlock Text="{Binding ResponseDate, StringFormat={}{0:dd.MM.yyyy}}"/>
                                     </StackPanel>
-                                    <TextBlock Text="{Binding AboutMe}" Margin="0,5,0,0" TextWrapping="Wrap" MaxHeight="60" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Text="{Binding CoverLetter}" Margin="0,5,0,0" TextWrapping="Wrap" MaxHeight="60" TextTrimming="CharacterEllipsis"/>
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                    <Button Content="Изменить" Style="{StaticResource ActionButtonStyle}" 
-                                            Tag="{Binding Id}" Click="EditResumeButton_Click"/>
-                                    <Button Content="Удалить" Style="{StaticResource ActionButtonStyle}" 
-                                            Tag="{Binding Id}" Click="DeleteResumeButton_Click"/>
+                                    <Button Content="Резюме" Style="{StaticResource ActionButtonStyle}" 
+                                            Tag="{Binding Id}" Click="ViewResumeButton_Click"/>
+                                    <Button Content="Изменить статус" Style="{StaticResource ActionButtonStyle}" 
+                                            Tag="{Binding Id}" Click="ChangeStatusButton_Click"/>
                                 </StackPanel>
                             </Grid>
                         </Border>

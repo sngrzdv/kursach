@@ -1,7 +1,10 @@
 ﻿using kursach.AppData;
+using kursach.Pages;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,33 +20,34 @@ namespace kursach.Windows
 {
     public partial class EditEmailWindow : Window
     {
-        private vacancyEntities _db = new vacancyEntities();
-        private Users _user;
+        private readonly vacancyEntities _db;
+        private readonly Users _user;
 
         public EditEmailWindow(Users user)
         {
             InitializeComponent();
-            _user = user;
+            _db = new vacancyEntities();
+
+            _user = _db.Users.Find(user.Id);
+
+            if (_user == null)
+            {
+                MessageBox.Show("Пользователь не найден");
+                Close();
+                return;
+            }
+
             CurrentEmailText.Text = _user.Email;
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                var addr = new System.Net.Mail.MailAddress(NewEmailTextBox.Text);
-                if (addr.Address != NewEmailTextBox.Text)
-                {
-                    MessageBox.Show("Введите корректный email");
-                    return;
-                }
-            }
-            catch
+            if (!IsValidEmail(NewEmailTextBox.Text))
             {
                 MessageBox.Show("Введите корректный email");
                 return;
             }
-            
+
             if (string.IsNullOrWhiteSpace(NewEmailTextBox.Text))
             {
                 MessageBox.Show("Введите новый email");
@@ -65,16 +69,39 @@ namespace kursach.Windows
             try
             {
                 _user.Email = NewEmailTextBox.Text;
+
+                _db.Entry(_user).State = EntityState.Modified;
                 _db.SaveChanges();
+
                 CurrentUser.Email = _user.Email;
 
                 MessageBox.Show("Email успешно изменен");
+                DialogResult = true;
                 Close();
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка: {ex.Message}");
+                MessageBox.Show($"Ошибка при сохранении: {ex.Message}");
             }
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            _db?.Dispose(); 
         }
     }
 }

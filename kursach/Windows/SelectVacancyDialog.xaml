@@ -1,0 +1,30 @@
+﻿<Window x:Class="kursach.Windows.SelectVacancyDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:kursach.Windows"
+        mc:Ignorable="d"
+        Title="Выберите вакансию" Height="200" Width="400"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+
+    <Grid Margin="10" Background="#FFe6e3e1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Выберите вакансию для отклика:" Margin="0,0,0,10"/>
+
+        <ComboBox Grid.Row="1" x:Name="VacanciesComboBox" Margin="0,0,0,20" Height="30"/>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="OKButton" Content="OK" Width="80" Margin="0,0,10,0" 
+                    Click="OKButton_Click" Background="#FF9e948d" Foreground="White"/>
+            <Button x:Name="CancelButton" Content="Отмена" Width="80" 
+                    Click="CancelButton_Click" Background="#FF9e948d" Foreground="White"/>
+        </StackPanel>
+    </Grid>
+</Window>

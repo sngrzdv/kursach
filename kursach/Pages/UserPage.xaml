@@ -33,7 +33,6 @@
             </Setter>
         </Style>
 
-        <!-- Стиль для ComboBox -->
         <Style x:Key="CompactComboBox" TargetType="ComboBox">
             <Setter Property="Background" Value="#FFe6e3e1"/>
             <Setter Property="BorderBrush" Value="#FFe6e3e1"/>
@@ -46,27 +45,75 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="ComboBox">
                         <Grid>
-                            <Border x:Name="border" 
-                                    Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    CornerRadius="3"/>
-                            <ContentPresenter HorizontalAlignment="Left" 
+                            <Grid.Resources>
+                                <Style TargetType="ComboBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ComboBoxItem">
+                                                <Border Background="Transparent" SnapsToDevicePixels="true">
+                                                    <ContentPresenter Content="{TemplateBinding Content}"
+                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                          Margin="6,2"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsHighlighted" Value="true">
+                                                        <Setter Property="Background" Value="#FFD3D3D3"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Grid.Resources>
+
+                            <ToggleButton x:Name="ToggleButton"
+                                Focusable="false"
+                                IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                ClickMode="Press">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Border Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="3">
+                                            <Grid>
+                                                <ContentPresenter Content="{Binding SelectedItem.Name, RelativeSource={RelativeSource AncestorType=ComboBox}}"
+                                                      Margin="6,0,20,0"
+                                                      VerticalAlignment="Center"/>
+                                                <Path x:Name="arrow"
+                                              Fill="Black"
+                                              HorizontalAlignment="Right"
                                               VerticalAlignment="Center"
-                                              Margin="{TemplateBinding Padding}"/>
-                            <Path x:Name="arrow"
-                                  Fill="Black"
-                                  HorizontalAlignment="Right"
-                                  VerticalAlignment="Center"
-                                  Margin="0,0,6,0"
-                                  Data="M0,0 L4,4 8,0 Z"/>
+                                              Margin="0,0,6,0"
+                                              Data="M0,0 L4,4 8,0 Z"/>
+                                            </Grid>
+                                        </Border>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+
+                            <Popup x:Name="Popup"
+                         Placement="Bottom"
+                         IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                         AllowsTransparency="True"
+                         Focusable="False"
+                         PopupAnimation="Slide">
+                                <Border Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              CornerRadius="3">
+                                    <ScrollViewer MaxHeight="200" CanContentScroll="True">
+                                        <ItemsPresenter />
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <!-- Стили для кнопок (оставляем как было) -->
+        <!-- Стили для кнопок -->
         <Style x:Key="MenuButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
@@ -234,7 +281,7 @@
                 <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
                     <Button x:Name="VacanciesButton" Content="Вакансии" Style="{StaticResource MenuButtonStyle}"  Background="#FF9e948d" Foreground="Black" Click="VacanciesButton_Click"/>
                     <Button x:Name="MyResumesButton" Content="Мои резюме" Style="{StaticResource MenuButtonStyle}" Margin="10,0,0,0" Background="#FF4f4843" Click="MyResumesButton_Click"/>
-                    <Button x:Name="ResponsesButton" Content="Отклики" Style="{StaticResource MenuButtonStyle}" Margin="10,0,0,0" Background="#FF4f4843" Click="NotificationsButton_Click"/>
+                    <Button x:Name="ResponsesButton" Content="Отклики" Style="{StaticResource MenuButtonStyle}" Margin="10,0,0,0" Background="#FF4f4843" Click="ResponsesButton_Click"/>
                 </StackPanel>
 
                 <!-- Правая часть меню -->
@@ -258,7 +305,7 @@
                 <StackPanel Margin="10">
                     <TextBlock Text="Поиск и фильтры" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
 
-                    <!-- Обновленный TextBox поиска -->
+                    <!-- Поиск вакансий -->
                     <TextBox x:Name="SearchBox" 
                      Style="{StaticResource SearchTextBoxStyle}"
                      Margin="0,0,0,15"/>
@@ -346,7 +393,6 @@
                                             <TextBlock Text="{Binding EmploymentType}"/>
                                         </StackPanel>
                                     </StackPanel>
-
                                     <Button Grid.Column="2" Content="❤" FontSize="10" Padding="8" 
                         HorizontalAlignment="Right" VerticalAlignment="Top"
                         Style="{StaticResource IconButtonStyle}"/>

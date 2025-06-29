@@ -21,6 +21,20 @@ namespace kursach.Pages
 {
     public partial class UserAccount : Page
     {
+        // Создаем DependencyProperty для CredentialsButtonText
+        public static readonly DependencyProperty CredentialsButtonTextProperty =
+            DependencyProperty.Register(
+                "CredentialsButtonText",
+                typeof(string),
+                typeof(UserAccount),
+                new PropertyMetadata("Показать учетные данные"));
+
+        public string CredentialsButtonText
+        {
+            get => (string)GetValue(CredentialsButtonTextProperty);
+            set => SetValue(CredentialsButtonTextProperty, value);
+        }
+
         private vacancyEntities _db = new vacancyEntities();
         private Users _currentUser;
 
@@ -56,7 +70,8 @@ namespace kursach.Pages
                     User = _currentUser,
                     RoleName = _currentUser.Roles?.Name ?? "Пользователь",
                     CredentialsButtonText = "Показать учетные данные",
-                    CanBecomeEmployer = _currentUser.RoleId != 2, // 2 - это ID роли работодателя
+                    CanBecomeEmployer = _currentUser.RoleId == 3, // 3 - это ID роли соискателя
+                    CanBecomeJobSeeker = _currentUser.RoleId == 2, // 2 - это ID роли работодателя
                     ResponsesCount = 0, // Здесь нужно добавить реальный подсчет откликов
                     FavoritesCount = (_currentUser.FavoriteResumes?.Count ?? 0) +
                                    (_currentUser.FavoriteVacancies?.Count ?? 0),
@@ -150,6 +165,47 @@ namespace kursach.Pages
                 }
             }
         }
+
+        private void BecomeJobSeeker_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show(
+                "Вы точно хотите стать соискателем?\nПосле изменения нужно будет авторизоваться заново.",
+                "Подтверждение",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    _currentUser.RoleId = 3; // ID роли соискателя
+                    _db.SaveChanges();
+
+                    CurrentUser.Clear();
+                    MessageBox.Show("Роль успешно изменена. Авторизуйтесь заново.");
+                    NavigationService.Navigate(new Autoriz());
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show($"Ошибка: {ex.Message}");
+                }
+            }
+        }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show(
+                "Вы уверены, что хотите выйти из аккаунта?",
+                "Подтверждение выхода",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                CurrentUser.Clear();
+                NavigationService.Navigate(new Autoriz());
+            }
+        }
     }
 
     public class UserAccountViewModel
@@ -158,6 +214,7 @@ namespace kursach.Pages
         public string RoleName { get; set; }
         public string CredentialsButtonText { get; set; }
         public bool CanBecomeEmployer { get; set; }
+        public bool CanBecomeJobSeeker { get; set; }
         public int ResponsesCount { get; set; }
         public int FavoritesCount { get; set; }
         public int ResumesCount { get; set; }

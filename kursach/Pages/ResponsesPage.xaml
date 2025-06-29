@@ -10,6 +10,35 @@
       Background="#FF4f4843">
 
     <Page.Resources>
+        <Style x:Key="BackButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#FFe6e3e1"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}">
+                            <StackPanel Orientation="Horizontal">
+                                <ContentPresenter Content="{TemplateBinding Content}" 
+                                                  VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="#FFb8b0a9"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
         <Style x:Key="ResponseItemStyle" TargetType="Border">
             <Setter Property="Background" Value="#FFe6e3e1"/>
@@ -42,6 +71,7 @@
             </Style.Triggers>
         </Style>
     </Page.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -49,15 +79,25 @@
         </Grid.RowDefinitions>
 
         <!-- Заголовок -->
-        <TextBlock Grid.Row="0" Text="Мои отклики" FontSize="20" FontWeight="Bold" 
-                   Foreground="#FFe6e3e1" Margin="15,10"/>
+        <Grid Grid.Row="0" Margin="15,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="BackButton" Content="← Назад" Style="{StaticResource BackButtonStyle}" 
+                    Click="BackButton_Click" Grid.Column="0"/>
+
+            <TextBlock Grid.Column="1" Text="Мои отклики" FontSize="20" FontWeight="Bold" 
+                       Foreground="#FFe6e3e1" HorizontalAlignment="Center"/>
+        </Grid>
 
         <!-- Список откликов -->
         <ScrollViewer Grid.Row="1" Margin="15,0,15,15">
             <ItemsControl x:Name="ResponsesItemsControl">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Style="{StaticResource ResponseItemStyle}">
+                        <Border Style="{StaticResource ResponseItemStyle}" MouseDown="ResponseItem_MouseDown">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>

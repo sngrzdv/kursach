@@ -44,21 +44,49 @@ namespace kursach.Pages
                 return;
             }
 
-            _user.LastName = LastNameTextBox.Text;
-            _user.FirstName = FirstNameTextBox.Text;
-            _user.FatherName = FatherNameTextBox.Text;
-            _user.Phone = PhoneTextBox.Text;
-
             try
             {
-                _db.SaveChanges();
-                CurrentUser.SetUser(_user);
-                MessageBox.Show("Данные успешно сохранены");
-                NavigationService?.GoBack();
+                using (var db = new vacancyEntities()) // Новый контекст для сохранения
+                {
+                    // Находим пользователя в БД
+                    var userToUpdate = db.Users.FirstOrDefault(u => u.Id == _user.Id);
+
+                    if (userToUpdate == null)
+                    {
+                        MessageBox.Show("Пользователь не найден!");
+                        return;
+                    }
+
+                    // Обновляем данные
+                    userToUpdate.LastName = LastNameTextBox.Text;
+                    userToUpdate.FirstName = FirstNameTextBox.Text;
+                    userToUpdate.FatherName = FatherNameTextBox.Text;
+                    userToUpdate.Phone = PhoneTextBox.Text;
+
+                    db.SaveChanges(); // Сохраняем в БД
+
+                    // Обновляем текущего пользователя в системе
+                    CurrentUser.SetUser(userToUpdate);
+
+                    MessageBox.Show("Данные успешно сохранены!");
+
+                    // Вариант 1: Просто вернуться назад
+                    NavigationService?.GoBack();
+
+                    // Вариант 2: Принудительно обновить страницу профиля
+                    NavigationService?.Navigate(new UserAccount());
+                }
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+            {
+                var errors = ex.EntityValidationErrors
+                    .SelectMany(x => x.ValidationErrors)
+                    .Select(x => x.ErrorMessage);
+                MessageBox.Show($"Ошибки валидации:\n{string.Join("\n", errors)}");
             }
             catch (System.Exception ex)
             {
-                MessageBox.Show($"Ошибка сохранения: {ex.Message}");
+                MessageBox.Show($"Ошибка: {ex.Message}");
             }
         }
     }

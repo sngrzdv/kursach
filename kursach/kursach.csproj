@@ -359,6 +359,17 @@
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <Content Include="Images\2.jpg" />
+    <Resource Include="Images\1.jpg" />
+    <Resource Include="Images\3.jpg" />
+    <Resource Include="Images\4.jpg" />
+    <Resource Include="Images\5.jpg" />
+    <Resource Include="Images\ж3.jpg" />
+    <Resource Include="Images\ж2.jpg" />
+    <Resource Include="Images\и2.jpg" />
+    <Resource Include="Images\м1.jpg" />
+    <Resource Include="Images\м3.jpg" />
+    <Resource Include="Images\ж1.jpg" />
     <Resource Include="Images\picture.jpg" />
     <Resource Include="facebook_jobs_facebook_social_media_application_brand_job_icon_197314 %281%29.ico" />
   </ItemGroup>
